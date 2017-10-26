@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos - {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <p>
+            <a href="{% url 'index' %}">Início</a> |
+            <a href="{% url 'novo_pedido' %}">Novo Pedido</a>
+        </p>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

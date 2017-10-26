@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from pedidos.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^inicio/$', IndexView.as_view(), name='index'),
+    url(r'^pedido/$', PedidoView.as_view(), name='novo_pedido'),
 ]

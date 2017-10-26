@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Novo Pedido{% endblock %}
+
+{% block content %}
+    <h2>Novo pedido</h2>
+
+    {% if mensagem %}
+    <span>
+        <p><i>{{ mensagem.texto }}</i></p>
+    </span>
+    {% endif %}
+
+    <form method="POST" action=".">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit">
+    </form>
+{% endblock %}

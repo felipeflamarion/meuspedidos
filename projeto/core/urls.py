@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^inicio/$', IndexView.as_view(), name='index'),
     url(r'^pedido/$', PedidoView.as_view(), name='novo_pedido'),
+    url(r'^pedidos/$', PedidoView.ListaPedidos, name='lista_pedidos'),
 ]

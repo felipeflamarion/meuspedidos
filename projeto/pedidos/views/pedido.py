@@ -2,6 +2,8 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 from pedidos.forms import PedidoForm
+from pedidos.models import PedidoModel
+
 
 class PedidoView(View):
 
@@ -23,3 +25,10 @@ class PedidoView(View):
         context_dict['form'] = form
         context_dict['mensagem'] = mensagem
         return render(request, 'pedidos/pedido.html', context_dict)
+
+    @classmethod
+    def ListaPedidos(self, request):
+        context_dict = {}
+        pedidos = PedidoModel.objects.all()
+        context_dict['pedidos'] = pedidos
+        return render(request, 'pedidos/lista_pedidos.html', context_dict)

@@ -37,6 +37,7 @@ class PedidoView(View):
         context_dict = {}
         pedidos = PedidoModel.objects.all()
         context_dict['pedidos'] = pedidos
+        context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
         return render(request, 'pedidos/lista_pedidos.html', context_dict)
 
     @classmethod
@@ -69,7 +70,7 @@ class PedidoView(View):
         itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido
         context_dict['itens'] = itens
-        context_dict['sessao_pedido'] = sessao_pedido.get_objeto_pedido()
+        context_dict['pedido_ativo'] = sessao_pedido.get_objeto_pedido()
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 
     @classmethod
@@ -80,6 +81,6 @@ class PedidoView(View):
         itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido
         context_dict['itens'] = itens
-        context_dict['sessao_pedido'] = sessao_pedido.get_objeto_pedido()
+        context_dict['pedido_ativo'] = sessao_pedido.get_objeto_pedido()
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 

@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^pedido/visualizar/(?P<id_pedido>\d+)/$', PedidoView.Visualizar, name='visualizar_pedido'),
 
     url(r'^produto/(?P<id_produto>\d+)/$', ProdutoView.Visualizar, name='visualizar_produto'),
-    url(r'^produtos/$', ProdutoView.ListaProdutos, name='lista_produtos'),
+    url(r'^produtos/$', ProdutoView.Listar, name='lista_produtos'),
 
     url(r'^item/$', ItemView.as_view(), name='novo_item'),
 ]

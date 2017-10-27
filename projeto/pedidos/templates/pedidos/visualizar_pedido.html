@@ -17,7 +17,7 @@
     </ul>
 
     {% if not pedido.finalizado %}
-        {% if pedido == sessao_pedido %}
+        {% if pedido == pedido_ativo %}
         <p>
             <a href="{% url 'lista_produtos' %}">Adicionar Itens</a> |
             <a href="{% url 'cancelar_pedido' %}">Cancelar</a> |

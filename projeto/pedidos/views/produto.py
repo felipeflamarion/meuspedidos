@@ -17,7 +17,7 @@ class ProdutoView(View):
         return render(request, 'pedidos/visualizar_produto.html', context_dict)
 
     @classmethod
-    def ListaProdutos(self, request):
+    def Listar(self, request):
         context_dict = {}
         produtos = ProdutoModel.objects.all()
         context_dict['produtos'] = produtos

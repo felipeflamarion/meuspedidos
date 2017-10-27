@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Pedidos - {% block title %}{% endblock %}</title>
 
-    <link type="text/css" rel="stylesheet" href="{% static 'teste.css' %}" />
+    {% block extracss %}{% endblock %}
 </head>
 <body>
     <nav>
@@ -25,4 +25,7 @@
     </nav>
     {% block content %}{% endblock %}
 </body>
+
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+{% block extrajs %}{% endblock %}
 </html>

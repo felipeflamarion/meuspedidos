@@ -29,7 +29,7 @@ class ItemView(View):
         context_dict['pedido_ativo'] = pedido.get_objeto_pedido()
         context_dict['form'] = form
         context_dict['mensagem'] = mensagem
-        return render(request, 'pedidos/produto.html', context_dict)
+        return render(request, 'pedidos/visualizar_produto.html', context_dict)
 
     def get_produto(self, id_produto):
         try:

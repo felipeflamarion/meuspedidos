@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Visualizar Pedido{% endblock %}
+
+{% block content %}
+    <h2>Pedido {{ pedido.id }}</h2>
+
+    <ul>
+    {% for item in itens %}
+        <li>
+            Nome: {{ item.produto.nome }} <br />
+            Quantidade: {{ item.quantidade }} <br />
+            Preço Unitário: {{ item.preco }} <br />
+            Rentabilidade: <br />
+        </li>
+    {% endfor %}
+    </ul>
+
+    {% if not pedido.finalizado %}
+        {% if pedido == sessao_pedido %}
+        <p>
+            <a href="{% url 'lista_produtos' %}">Adicionar Itens</a> |
+            <a href="{% url 'cancelar_pedido' %}">Cancelar</a> |
+            {% if pedido.itens.all|length > 0 %}
+            <a href="{% url 'finalizar_pedido' %}">Finalizar</a>
+            {% endif %}
+        </p>
+        {% else %}
+        <p>
+            <a href="#">Continuar Pedido</a>
+        </p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

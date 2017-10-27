@@ -24,8 +24,8 @@
         <p>Preço unitário do Produto: {{ produto.preco_unitario }}</p>
         <p>Múltiplo: {% if produto.multiplo %}{{ produto.multiplo }}{% else %}Não possui{% endif %}</p>
 
-        <h2>Adicionar ao Pedido</h2>
         {% if pedido_ativo %}
+        <h2>Adicionar ao Pedido</h2>
         <form method="POST" action="{% url 'novo_item' %}">{% csrf_token %}
             <input type="hidden" name="produto" value="{{ produto.id }}"/>
             <p>

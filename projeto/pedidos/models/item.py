@@ -1,4 +1,4 @@
-# unicode: utf-8
+# coding: utf-8
 from django.db import models
 from pedidos.models import ProdutoModel, PedidoModel
 

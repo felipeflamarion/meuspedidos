@@ -14,7 +14,7 @@ class ProdutoView(View):
         context_dict = {}
         context_dict['produto'] = ProdutoModel.objects.get(pk=id_produto)
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
-        return render(request, 'pedidos/produto.html', context_dict)
+        return render(request, 'pedidos/visualizar_produto.html', context_dict)
 
     @classmethod
     def ListaProdutos(self, request):

@@ -23,8 +23,10 @@ urlpatterns = [
     url(r'^inicio/$', IndexView.as_view(), name='index'),
 
     url(r'^pedido/$', PedidoView.as_view(), name='novo_pedido'),
-    url(r'^pedidos/$', PedidoView.ListaPedidos, name='lista_pedidos'),
-    url(r'^pedido/cancelar/$', PedidoView.CancelarPedido, name='cancelar_pedido'),
+    url(r'^pedidos/$', PedidoView.Listar, name='lista_pedidos'),
+    url(r'^pedido/finalizar/$', PedidoView.Finalizar, name='finalizar_pedido'),
+    url(r'^pedido/cancelar/$', PedidoView.Cancelar, name='cancelar_pedido'),
+    url(r'^pedido/visualizar/(?P<id_pedido>\d+)/$', PedidoView.Visualizar, name='visualizar_pedido'),
 
     url(r'^produto/(?P<id_produto>\d+)/$', ProdutoView.Visualizar, name='visualizar_produto'),
     url(r'^produtos/$', ProdutoView.ListaProdutos, name='lista_produtos'),

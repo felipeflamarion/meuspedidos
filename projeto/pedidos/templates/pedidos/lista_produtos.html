@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Produtos{% endblock %}
+
+{% block content %}
+    <h2>Produtos</h2>
+
+    {% if produtos %}
+    <ul>
+        {% for produto in produtos %}
+        <li>
+            <a href="{% url 'visualizar_produto' id_produto=produto.id %}">{{ produto.nome }}</a>
+            <p>
+                {% if pedido_ativo and item_form %}
+                <form method="POST" action="{% url 'novo_item' %}">{% csrf_token %}
+                    <input type="hidden" name="produto" value="{{ produto.id }}"/>
+                    <p>
+                        <strong>Quantidade</strong>
+                        <input type="number" name="quantidade" maxlength="2" min="1" value="{% if produto.multiplo %}{{ produto.multiplo }}{% else %}1{% endif %}" />
+                    </p>
+                    <p>
+                        <strong>Preço Unitário do Item</strong>
+                        <input type="text" name="preco" maxlength="10" value="{{ produto.preco_unitario }}" />
+                    </p>
+                    <input type="submit">
+                </form>
+                {% endif %}
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

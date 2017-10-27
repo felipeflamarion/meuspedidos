@@ -6,6 +6,13 @@
     <h2>Lista de Pedidos</h2>
 
     {% if pedidos %}
-    {{ pedidos }}
+    <ul>
+        {% for pedido in pedidos %}
+        <li>
+            {{ pedido.data|date }} <strong>Cliente:</strong> {{ pedido.cliente.nome }} {{ pedido.cliente.sobrenome }}
+            <a href="#">Ver mais</a>
+        </li>
+        {% endfor %}
+    </ul>
     {% endif %}
 {% endblock %}

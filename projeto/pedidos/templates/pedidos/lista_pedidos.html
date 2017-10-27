@@ -9,7 +9,7 @@
     <ul>
         {% for pedido in pedidos %}
         <li>
-            <strong> Finalizado: {{ pedido.finalizado }}</strong> -
+            {% if pedido.finalizado %}<strong>[Finalizado]</strong>{% endif %}
             {{ pedido.data|date }} <strong>Cliente:</strong> {{ pedido.cliente.nome }} {{ pedido.cliente.sobrenome }}
             <a href="{% url 'visualizar_pedido' id_pedido=pedido.id %}">Ver mais</a>
         </li>

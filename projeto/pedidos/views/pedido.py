@@ -33,6 +33,16 @@ class PedidoView(View):
         return render(request, 'pedidos/pedido.html', context_dict)
 
     @classmethod
+    def Continuar(self, request, id_pedido):
+        context_dict = {}
+        pedido = PedidoModel.objects.get(pk=id_pedido)
+        pedido_ativo = SessaoPedido(request=request)
+        if pedido_ativo.existe():
+            pedido_ativo.excluir()
+        pedido_ativo.inicializar(pedido.id)
+        return HttpResponseRedirect(urlresolvers.reverse('lista_produtos'))
+
+    @classmethod
     def Listar(self, request):
         context_dict = {}
         pedidos = PedidoModel.objects.all()
@@ -43,12 +53,13 @@ class PedidoView(View):
     @classmethod
     def Cancelar(self, request):
         context_dict = {}
-        sessao_pedido = SessaoPedido(request=request)
-        pedido = sessao_pedido.get_objeto_pedido()
+        pedido_ativo = SessaoPedido(request=request)
+        pedido = pedido_ativo.get_objeto_pedido()
         for item in ItemModel.objects.filter(pedido=pedido):
-             item.delete()
-        sessao_pedido.excluir()
+            item.delete()
+        pedido_ativo.excluir()
         pedido.delete()
+        context_dict['pedidos'] = PedidoModel.objects.all()
         return render(request, 'pedidos/lista_pedidos.html', context_dict)
 
     @classmethod
@@ -71,6 +82,7 @@ class PedidoView(View):
         context_dict['pedido'] = pedido
         context_dict['itens'] = itens
         context_dict['pedido_ativo'] = sessao_pedido.get_objeto_pedido()
+        context_dict['mensagem'] = mensagem
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 
     @classmethod

@@ -39,7 +39,7 @@
         </p>
         {% else %}
         <p>
-            <a href="#">Continuar Pedido</a>
+            <a href="{% url 'continuar_pedido' id_pedido=pedido.id %}">Continuar Pedido</a>
         </p>
         {% endif %}
     {% endif %}

@@ -7,5 +7,8 @@ class ProdutoModel(models.Model):
     preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     multiplo = models.IntegerField(null=True)
 
+    def __str__(self):
+        return '%s' %self.nome
+
     class Meta:
         verbose_name_plural = 'Produtos'

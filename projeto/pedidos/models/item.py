@@ -9,5 +9,8 @@ class ItemModel(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade = models.IntegerField(default=1)
 
+    def __str__(self):
+        return '(%s) %s' %(self.quantidade, self.produto.nome)
+
     class Meta:
         verbose_name_plural = 'Itens'

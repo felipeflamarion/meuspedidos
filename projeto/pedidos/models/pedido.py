@@ -9,5 +9,8 @@ class PedidoModel(models.Model):
     data = models.DateTimeField(auto_now_add=True)
     ativo = models.BooleanField(default=True)
 
+    def __str__(self):
+        return '%s %s em %s' %(self.cliente.nome, self.cliente.sobrenome, self.data.strftime(u'%d/%m/%Y às %H:%M'))
+
     class Meta:
         verbose_name_plural = 'Pedidos'

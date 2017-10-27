@@ -10,7 +10,8 @@ class SessaoPedido:
         self.request.session['pedido'] = id_pedido
 
     def excluir(self):
-        del self.request.session['pedido']
+        if self.existe():
+            del self.request.session['pedido']
 
     def existe(self):
         if 'pedido' in self.request.session:

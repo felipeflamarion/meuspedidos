@@ -15,7 +15,9 @@
 
         {% if pedido_ativo %}
         <strong>Pedido Atual: </strong>
-        Cliente: {{ pedido_ativo.cliente.nome }} {{ pedido_ativo.cliente.sobrenome }}, {{ pedido_ativo.itens.all|length }} itens
+            Cliente: {{ pedido_ativo.cliente.nome }} {{ pedido_ativo.cliente.sobrenome }},
+            {{ pedido_ativo.itens.all|length }} itens
+            - <a href="{%  url 'cancelar_pedido' %}">Cancelar</a>
         {% endif %}
     </nav>
     {% block content %}{% endblock %}

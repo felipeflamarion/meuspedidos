@@ -24,6 +24,7 @@ urlpatterns = [
 
     url(r'^pedido/$', PedidoView.as_view(), name='novo_pedido'),
     url(r'^pedidos/$', PedidoView.ListaPedidos, name='lista_pedidos'),
+    url(r'^pedido/cancelar/$', PedidoView.CancelarPedido, name='cancelar_pedido'),
 
     url(r'^produto/(?P<id_produto>\d+)/$', ProdutoView.Visualizar, name='visualizar_produto'),
     url(r'^produtos/$', ProdutoView.ListaProdutos, name='lista_produtos'),

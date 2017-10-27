@@ -3,7 +3,7 @@ from django.core import urlresolvers
 from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 from pedidos.forms import PedidoForm
-from pedidos.models import PedidoModel
+from pedidos.models import PedidoModel, ItemModel
 from pedidos.views.functions import SessaoPedido
 
 class PedidoView(View):
@@ -37,5 +37,16 @@ class PedidoView(View):
         context_dict = {}
         pedidos = PedidoModel.objects.all()
         context_dict['pedidos'] = pedidos
+        return render(request, 'pedidos/lista_pedidos.html', context_dict)
+
+    @classmethod
+    def CancelarPedido(self, request):
+        context_dict = {}
+        sessao_pedido = SessaoPedido(request=request)
+        pedido = sessao_pedido.get_objeto_pedido()
+        for item in ItemModel.objects.filter(pedido=pedido):
+             item.delete()
+        sessao_pedido.excluir()
+        pedido.delete()
         return render(request, 'pedidos/lista_pedidos.html', context_dict)
 

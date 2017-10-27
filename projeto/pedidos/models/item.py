@@ -9,6 +9,14 @@ class ItemModel(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade = models.IntegerField(default=1)
 
+    def rentabilidade(self):
+        if self.preco > self.produto.preco_unitario:
+            return 2
+        elif self.preco < float(self.produto.preco_unitario) * 0.9:
+            return 0
+        else:
+            return 1
+
     def __str__(self):
         return '(%s) %s' %(self.quantidade, self.produto.nome)
 

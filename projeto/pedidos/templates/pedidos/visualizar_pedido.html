@@ -11,7 +11,15 @@
             Nome: {{ item.produto.nome }} <br />
             Quantidade: {{ item.quantidade }} <br />
             Preço Unitário: {{ item.preco }} <br />
-            Rentabilidade: <br />
+            Rentabilidade:
+            {% if item.rentabilidade == 2 %}
+                Ótima
+            {% elif item.rentabilidade == 1 %}
+                Boa
+            {% else %}
+                Ruim
+            {% endif %}
+            <br />
         </li>
     {% endfor %}
     </ul>

@@ -1,6 +1,4 @@
 # coding:utf-8
-from django.core import urlresolvers
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 from pedidos.models import ProdutoModel
@@ -12,7 +10,9 @@ class ProdutoView(View):
     @classmethod
     def Visualizar(self, request, id_produto=None):
         context_dict = {}
-        context_dict['produto'] = ProdutoModel.objects.get(pk=id_produto)
+        produto = ProdutoModel.objects.get(pk=id_produto)
+        context_dict['produto'] = produto
+        context_dict['item_form'] = ItemForm(preco=produto.preco_unitario, quantidade=produto.multiplo)
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
         return render(request, 'pedidos/visualizar_produto.html', context_dict)
 

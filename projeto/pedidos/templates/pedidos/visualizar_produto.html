@@ -24,18 +24,11 @@
         <p>Preço unitário do Produto: {{ produto.preco_unitario }}</p>
         <p>Múltiplo: {% if produto.multiplo %}{{ produto.multiplo }}{% else %}Não possui{% endif %}</p>
 
-        {% if pedido_ativo %}
+        {% if pedido_ativo and item_form %}
         <h2>Adicionar ao Pedido</h2>
         <form method="POST" action="{% url 'novo_item' %}">{% csrf_token %}
             <input type="hidden" name="produto" value="{{ produto.id }}"/>
-            <p>
-                <strong>Quantidade</strong>
-                <input type="number" name="quantidade" maxlength="2" min="1" value="{% if produto.multiplo %}{{ produto.multiplo }}{% else %}1{% endif %}" />
-            </p>
-            <p>
-                <strong>Preço Unitário do Item</strong>
-                <input type="text" name="preco" maxlength="10" value="{{ produto.preco_unitario }}" />
-            </p>
+            {{ item_form.as_p }}
             <input type="submit">
         </form>
         {% endif %}

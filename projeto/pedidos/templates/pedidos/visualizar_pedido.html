@@ -10,7 +10,7 @@
         <li>
             Nome: {{ item.produto.nome }} <br />
             Quantidade: {{ item.quantidade }} <br />
-            Preço Unitário: {{ item.preco }} <br />
+            Preço Unitário: R$ {{ item.preco }} <br />
             Rentabilidade:
             {% if item.rentabilidade == 2 %}
                 Ótima
@@ -20,6 +20,10 @@
                 Ruim
             {% endif %}
             <br />
+            {% if not item.pedido.finalizado %}
+                <a href="{% url 'excluir_item' id_item=item.id %}">Excluir</a> -
+                <a href="{% url 'visualizar_item' id_item=item.id %}">Editar</a>
+            {% endif %}
         </li>
     {% endfor %}
     </ul>

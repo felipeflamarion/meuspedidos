@@ -10,7 +10,7 @@ class PedidoModel(models.Model):
     finalizado = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s %s em %s' %(self.cliente.nome, self.cliente.sobrenome, self.data.strftime(u'%d/%m/%Y -mi %H:%M'))
+        return '%s %s em %s' %(self.cliente.nome, self.cliente.sobrenome, self.data.strftime(u'%d/%m/%Y em %H:%M'))
 
     class Meta:
         verbose_name_plural = 'Pedidos'

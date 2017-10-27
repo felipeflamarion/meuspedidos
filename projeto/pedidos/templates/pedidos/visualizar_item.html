@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Visualizar Item{% endblock %}
+
+{% block content %}
+    <h2>Item {{ item.produto.nome }}</h2>
+    <h4>Pedido: {{ item.pedido }}</h4>
+
+    {% if pedido_ativo %}
+    <p>
+        <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">Voltar</a> -
+        <a href="{% url 'excluir_item' id_item=item.id %}">Excluir</a>
+    </p>
+    {% endif %}
+
+    {% if mensagem %}
+    <span>
+        <p><i>{{ mensagem.texto }}</i></p>
+        {% if mensagem.codigo == False %}
+            {{ form.errors }}
+        {% endif %}
+    </span>
+    {% endif %}
+
+    {% if pedido_ativo and item_form %}
+        {% if not mensagem.codigo %}
+        <form method="POST" action="{% url 'editar_item' id_item=item.id %}">{% csrf_token %}
+            <input type="hidden" name="produto" value="{{ produto.id }}"/>
+            {{ item_form.as_p }}
+            <input type="submit" value="Editar">
+        </form>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

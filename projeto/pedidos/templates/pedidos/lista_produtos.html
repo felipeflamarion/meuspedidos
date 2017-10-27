@@ -11,7 +11,7 @@
         <li>
             <a href="{% url 'visualizar_produto' id_produto=produto.id %}">{{ produto.nome }}</a>
             <p>
-                {% if pedido_ativo and item_form %}
+                {% if pedido_ativo and produto not in pedido_ativo.itens.all %}
                 <form method="POST" action="{% url 'novo_item' %}">{% csrf_token %}
                     <input type="hidden" name="produto" value="{{ produto.id }}"/>
                     <p>

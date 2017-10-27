@@ -32,4 +32,8 @@ urlpatterns = [
     url(r'^produtos/$', ProdutoView.Listar, name='lista_produtos'),
 
     url(r'^item/$', ItemView.as_view(), name='novo_item'),
+    # url(r'^item/(?P<id_produto>\d+)/$', ItemView.as_view(), name='novo_item'),
+    url(r'^item/visualizar/(?P<id_item>\d+)/$', ItemView.Visualizar, name='visualizar_item'),
+    url(r'^item/editar/(?P<id_item>\d+)/$', ItemView.Editar, name='editar_item'),
+    url(r'^item/excluir/(?P<id_item>\d+)/$', ItemView.Excluir, name='excluir_item'),
 ]

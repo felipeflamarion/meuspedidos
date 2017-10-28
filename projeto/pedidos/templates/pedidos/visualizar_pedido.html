@@ -117,7 +117,7 @@
             {% if pedido == pedido_ativo %}
             <a class="ui compact labeled icon fluid big teal button" href="{% url 'lista_produtos' %}">
                 <i class="add to cart icon"></i>
-                Adicionar produtos
+                Adicionar itens
             </a>
             {% endif %}
             <div class="ui warning message">
@@ -128,7 +128,7 @@
     </div>
 
     {% if pedido == pedido_ativo %}
-    <div class="ui two bottom attached buttons">
+    <div class="ui two bottom attached big buttons">
         <a href="{% url 'cancelar_pedido' %}" class="ui labeled icon inverted red button">
             <i class="remove icon"></i>
             Cancelar Pedido
@@ -139,8 +139,8 @@
         </a>
     </div>
     {% else %}
-    <a href="{% url 'continuar_pedido' id_pedido=pedido.id %}" class="ui bottom attached blue button">
-        Continuar Pedido
+    <a href="{% url 'continuar_pedido' id_pedido=pedido.id %}" class="ui bottom attached blue big button">
+        Continuar pedido
     </a>
     {% endif %}
 

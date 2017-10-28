@@ -39,7 +39,7 @@ class ItemView(View):
             item.delete()
             return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': item.pedido.id}))
         else:
-            mensagem = {'codigo': False, 'texto': 'Não é possível excluir itens de um pedido finalizado!'}
+            mensagem = {'codigo': False, 'texto': 'Não é possível excluir itens de um pedido finalizado! Reabra o pedido para excluir!'}
         print(mensagem)
         # context_dict['mensagem'] = mensagem
         # context_dict['produto'] = item.produto
@@ -68,7 +68,7 @@ class ItemView(View):
                 item_form.save()
                 mensagem = {'codigo': True, 'texto': 'Item editado!'}
             else:
-                mensagem = {'codigo': False, 'texto': 'Não é permitido editar itens de pedidos finalizados!'}
+                mensagem = {'codigo': False, 'texto': 'Não é permitido editar itens de pedidos finalizados! Reabra o pedido para editar!'}
         else:
             mensagem = {'codigo': False, 'texto': 'Não foi possível editar o item!'}
 

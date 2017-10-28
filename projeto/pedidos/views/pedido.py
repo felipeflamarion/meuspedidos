@@ -35,7 +35,6 @@ class PedidoView(View):
 
     @classmethod
     def Continuar(self, request, id_pedido):
-        context_dict = {}
         pedido = PedidoModel.objects.get(pk=id_pedido)
         pedido_ativo = SessaoPedido(request=request)
         if pedido_ativo.existe():

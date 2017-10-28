@@ -1,0 +1,21 @@
+@font-face {
+    font-family: starwars;
+    src: url(fonts/starjedi/Starjedi.ttf);
+}
+
+body {
+    background: url(../imagens/background-index.jpg) repeat center center fixed !important;
+}
+
+.welcome.header{
+    font-family: starwars!important;
+    font-size: 75px !important;
+}
+
+.lipsum{
+    text-align: justify!important;
+}
+
+.welcome.header, .welcome .sub.header, .lipsum{
+    color: white!important;
+}

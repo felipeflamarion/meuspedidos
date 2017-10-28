@@ -1,13 +1,45 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}{% load static %}
 
 {% block title %}Início{% endblock %}
 
+{% block extracss %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
 {% block content %}
             {% include 'mensagem.html' %}
-            <h1 class="ui centered header">
-                Bem-vindo
+            <h1 class="ui centered welcome header">
+                Meus Pedidos
                 <div class="sub header">
-                    ao Sistema de Pedidos
+                    Sistema de Pedidos mais utilizado em Tatooine
                 </div>
             </h1>
+
+            <div class="ui centered grid">
+                <div class="eight wide column">
+                    <p class="lipsum" align="justify">
+                    Lucas ipsum dolor sit amet kamino darth dantooine yavin luuke coruscant
+                    owen antilles hutt antilles. Moff darth skywalker darth jinn greedo cade.
+                    Kamino jabba lobot qui-gon skywalker luuke hutt owen antilles.
+                    Boba mandalorians lobot darth. Organa sebulba jade anakin wedge
+                    sidious ewok calrissian. Obi-wan watto binks moff bothan yoda.
+                    R2-d2 r2-d2 fett dagobah gamorrean. Jabba ben boba windu binks moff aayla
+                    padmé wedge. Kamino lobot c-3p0 greedo dantooine ventress droid.
+                    Jade sidious padmé maul binks hutt Dagobah wicket leia secura antilles bothan.
+                    Darth ackbar moff hutt. Tatooine hoth thrawn antilles skywalker darth skywalker
+                    fett. Palpatine binks lobot yavin. Wedge zabrak skywalker kamino hutt. Moff
+                    darth wookiee amidala biggs mustafar. Darth dantooine hoth han yoda skywalker
+                    antilles biggs skywalker. Moff binks vader mandalore organa gonk boba. Calamari
+                    bespin sith ahsoka. Dantooine fisto yoda moff mace grievous jade. Biggs chewbacca
+                    jade windu kamino organa. Moff darth fett watto hoth endor yoda. Ventress
+                    lando mara antilles. Coruscant grievous dantooine ben skywalker darth.
+                    Ackbar sith ahsoka maul mara kamino. Hutt darth jabba solo moff tatooine jade.
+                    Ahsoka darth dantooine qui-gonn droid solo bespin skywalker dagobah. Darth padmé
+                    organa dooku watto jango organa obi-wan. Maul ventress ben sebulba obi-wan moff
+                    dooku. Maul dagobah c-3p0 calrissian moff ewok ackbar lando. Hutt baba r2-d2 solo
+                    darth fett moff palpatine fett. Hutt windu coruscant hutt hoth dooku. Organa
+                    chewbacca darth luke mustafar boba jar skywalker owen.
+                    </p>
+                </div>
+            </div>
 {% endblock %}

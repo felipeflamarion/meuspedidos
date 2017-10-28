@@ -17,19 +17,20 @@ class PedidoView(View):
     def post(self, request):
         context_dict = {}
         form = PedidoForm(data=request.POST)
+        pedido_ativo = SessaoPedido(request=request)
 
         if form.is_valid():
-            pedido = form.save()
-            pedido_ativo = SessaoPedido(request=request)
+            pedido_novo = form.save()
             if pedido_ativo.existe():
                 pedido_ativo.excluir()
-            pedido_ativo.inicializar(pedido.id)
-            return HttpResponseRedirect(urlresolvers.reverse('lista_produtos'))
-        else:
-            mensagem = {'codigo': False, 'texto': 'Não foi possível registrar o pedido!'}
+            pedido_ativo.inicializar(pedido_novo.id)
+            return HttpResponseRedirect(
+                urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido_novo.id}) + '?criado=True'
+            )
 
+        context_dict['mensagem'] = {'codigo': False, 'texto': 'Não foi possível registrar o pedido!'}
+        context_dict['pedido_ativo'] = pedido_ativo.get_objeto_pedido()
         context_dict['form'] = form
-        context_dict['mensagem'] = mensagem
         return render(request, 'pedidos/pedido.html', context_dict)
 
     @classmethod
@@ -57,42 +58,44 @@ class PedidoView(View):
         pedido = pedido_ativo.get_objeto_pedido()
         for item in ItemModel.objects.filter(pedido=pedido):
             item.delete()
+        pedido_ativo.get_objeto_pedido().delete()
         pedido_ativo.excluir()
-        pedido.delete()
-        context_dict['pedidos'] = PedidoModel.objects.all()
-        return render(request, 'pedidos/lista_pedidos.html', context_dict)
+        context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido cancelado!'}
+        return render(request, 'pedidos/index.html', context_dict)
 
     @classmethod
     def Finalizar(self, request):
         context_dict = {}
-        sessao_pedido = SessaoPedido(request=request)
-        pedido = sessao_pedido.get_objeto_pedido()
+        pedido_atual = SessaoPedido(request=request)
+        pedido = pedido_atual.get_objeto_pedido()
+
         if pedido:
             if len(pedido.itens.all()) > 0:
                 pedido.finalizado = True
                 pedido.save()
-                sessao_pedido.excluir()
-                mensagem = {'codigo': True, 'texto': 'Pedido finalizado com sucesso!'}
+                pedido_atual.excluir()
+                context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido finalizado com sucesso!'}
+                return render(request, 'pedidos/index.html', context_dict)
             else:
                 mensagem = {'codigo': False, 'texto': 'Um pedido deve conter pelo menos 1 item!'}
         else:
-            mensagem = {'codigo': False, 'texto': 'Não foi possível finalizar. Pedido inválido!'}
+            mensagem = {'codigo': False, 'texto': 'Pedido inválido! Não foi possível finalizar!'}
 
         itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido
+        context_dict['pedido_ativo'] = pedido
         context_dict['itens'] = itens
-        context_dict['pedido_ativo'] = sessao_pedido.get_objeto_pedido()
         context_dict['mensagem'] = mensagem
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 
     @classmethod
     def Visualizar(self, request, id_pedido):
         context_dict = {}
-        sessao_pedido = SessaoPedido(request=request)
         pedido = PedidoModel.objects.get(pk=id_pedido)
-        itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido
-        context_dict['itens'] = itens
-        context_dict['pedido_ativo'] = sessao_pedido.get_objeto_pedido()
+        context_dict['itens'] = ItemModel.objects.filter(pedido=pedido)
+        context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
+        if request.GET.get('criado') == 'True':
+            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido criado!'}
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 

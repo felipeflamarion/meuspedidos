@@ -3,5 +3,11 @@
 {% block title %}Início{% endblock %}
 
 {% block content %}
-    <h1>Bem-vindo!</h1>
+            {% include 'mensagem.html' %}
+            <h1 class="ui centered header">
+                Bem-vindo
+                <div class="sub header">
+                    ao Sistema de Pedidos
+                </div>
+            </h1>
 {% endblock %}

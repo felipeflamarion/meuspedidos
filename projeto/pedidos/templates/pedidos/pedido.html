@@ -3,16 +3,29 @@
 {% block title %}Novo Pedido{% endblock %}
 
 {% block content %}
-    <h2>Novo pedido</h2>
+        <div class="ui center aligned segment">
+            <h1 class="ui centered header">
+                <div class="content">
+                    Novo pedido
+                    <div class="sub header">
+                        Selecione o cliente para iniciar
+                    </div>
+                </div>
+            </h1>
 
-    {% if mensagem %}
-    <span>
-        <p><i>{{ mensagem.texto }}</i></p>
-    </span>
-    {% endif %}
+            {% if mensagem %}
+            <span>
+                <p><i>{{ mensagem.texto }}</i></p>
+            </span>
+            {% endif %}
 
-    <form method="POST" action=".">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit">
-    </form>
+            <form method="POST" action="." class="ui big form">
+                {% csrf_token %}
+                <div class="field">
+                    <label>{{ form.cliente.label }}</label>
+                    {{ form.cliente }}
+                </div>
+                <input type="submit" class="ui fluid teal submit big button" value="Continuar">
+            </form>
+        </div>
 {% endblock %}

@@ -1,0 +1,11 @@
+{% if mensagem %}
+    {% if mensagem.codigo %}
+    <div class="ui success message">
+        <span class="header">Sucesso!</span>
+    {% else %}
+    <div class="ui error message">
+        <span class="header">Falhou!</span>
+    {% endif %}
+        {{ mensagem.texto }}
+    </div>
+{% endif %}

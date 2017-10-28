@@ -11,6 +11,7 @@
 
 <div class="ui centered grid">
     <div class="ui blue row"></div>
+
     <div class="ui black row">
         <div class="ten wide column">
             <nav class="ui inverted menu">
@@ -21,7 +22,6 @@
             </nav>
         </div>
     </div>
-
     {% if pedido_ativo %}
     <div class="ui row">
         <div class="ten wide column">
@@ -38,22 +38,20 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="right menu">
-                    <a class="ui labeled icon inverted red button" href="{%  url 'cancelar_pedido' %}">
-                        <i class="remove icon"></i>
-                        Cancelar
-                    </a>
-                    <a class="ui labeled icon blue button" href="{%  url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">
+{#                    <a class="ui labeled icon inverted red button" href="{%  url 'cancelar_pedido' %}">#}
+{#                        <i class="remove icon"></i>#}
+{#                        Cancelar#}
+{#                    </a>#}
+                    <a class="ui right labeled icon blue button" href="{%  url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">
                         Finalizar
-                        <i class="check icon"></i>
+                        <i class="right arrow icon"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
     {% endif %}
-
     <div class="ui row">
         <div class="ten wide column">
         {% block content %}{% endblock %}

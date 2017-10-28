@@ -1,0 +1,7 @@
+.pedido.situacao.aberto{
+    color: orange!important;
+}
+
+.pedido.situacao.finalizado{
+    color: forestgreen!important;
+}

@@ -3,17 +3,62 @@
 {% block title %}Lista Pedidos{% endblock %}
 
 {% block content %}
-    <h2>Lista de Pedidos</h2>
+    {% include 'mensagem.html' %}
 
-    {% if pedidos %}
-    <ul>
-        {% for pedido in pedidos %}
-        <li>
-            {% if pedido.finalizado %}<strong>[Finalizado]</strong>{% endif %}
-            {{ pedido.data|date }} <strong>Cliente:</strong> {{ pedido.cliente.nome }} {{ pedido.cliente.sobrenome }}
-            <a href="{% url 'visualizar_pedido' id_pedido=pedido.id %}">Ver mais</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <div class="ui segment">
+        <h1 class="ui header">
+            <i class="clone icon"></i>
+            <div class="content">
+                Lista de Pedidos
+                <div class="sub header">
+                    Relação dos pedidos realizados
+                </div>
+            </div>
+        </h1>
+
+        {% if pedidos %}
+
+        <table class="ui table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th class="center aligned">Data</th>
+                    <th class="center aligned">Situação</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for pedido in pedidos %}
+                <tr>
+                    <td class="left aligned">{{ pedido.id }}</td>
+                    <td>{{ pedido.cliente.nome }} {{ pedido.cliente.sobrenome }}</td>
+                    <td class="center aligned">{{ pedido.data|date:"j/n/Y" }} às {{ pedido.data|date:"H:i" }}</td>
+                    <td class="center aligned">
+                        {% if pedido.finalizado %}
+                        <span class="situacao finalizado pedido">
+                            <i class="check icon"></i>
+                            Finalizado
+                        </span>
+                        {% else %}
+                        <span class="situacao aberto pedido">
+                            <i class="check icon"></i>
+                            Em aberto
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="center aligned">
+                        <a href="{% url 'visualizar_pedido' id_pedido=pedido.id %}">Ver mais</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="ui message">
+            <span class="header">Nada por aqui!</span>
+            Ainda não foram registrados os pedidos!
+        </div>
+        {% endif %}
+    </div>
 {% endblock %}

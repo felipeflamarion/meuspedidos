@@ -41,12 +41,16 @@ class PedidoView(View):
         if pedido_ativo.existe():
             pedido_ativo.excluir()
         pedido_ativo.inicializar(pedido.id)
-        return HttpResponseRedirect(urlresolvers.reverse('lista_produtos'))
+        pedido.finalizado = False
+        pedido.save()
+        return HttpResponseRedirect(
+            urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?reaberto=True'
+        )
 
     @classmethod
     def Listar(self, request):
         context_dict = {}
-        pedidos = PedidoModel.objects.all()
+        pedidos = PedidoModel.objects.all().order_by('-data')
         context_dict['pedidos'] = pedidos
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
         return render(request, 'pedidos/lista_pedidos.html', context_dict)
@@ -97,5 +101,7 @@ class PedidoView(View):
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
         if request.GET.get('criado') == 'True':
             context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido criado!'}
+        elif request.GET.get('reaberto') == 'True':
+            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido reaberto!'}
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 

@@ -8,11 +8,11 @@
     <div class="ui grid">
         <div class="row">
             <div class="eight wide column">
-                <div class="ui segment">
+                <div class="ui left aligned segment">
                     <h1 class="ui header">
                         <div class="content">
-                            Informações
-                            <div class="sub header">Detalhes sobre o item</div>
+                            Detalhes
+                            <div class="sub header">informações sobre o item</div>
                         </div>
                     </h1>
 
@@ -76,7 +76,7 @@
             </div>
             <div class="eight wide column">
                 {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
-                <div class="ui segment">
+                <div class="ui left aligned segment">
                     <h1 class="ui header">
                         <div class="content">
                             Editar

@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="eight wide column">
-                <div class="ui segment">
+                <div class="ui left aligned segment">
                     <div class="ui fluid list">
                         <div class="item">
                             <div class="ui dividing header">Produto</div>
@@ -52,7 +52,7 @@
                 </div>
                 {% if pedido_ativo and item_form %}
                     {% if produto not in pedido_ativo.itens.all %}
-                    <div class="ui blue segment">
+                    <div class="ui left aligned blue segment">
                         <div class="ui error quantidade hidden message">
                             <span class="header">Quantidade inválida</span>
                             Não respeita o valor múltiplo de venda do produto
@@ -77,7 +77,7 @@
                         </form>
                     </div>
                     {% else %}
-                    <div class="ui blue segment">
+                    <div class="ui left aligned blue segment">
                         <div class="ui blue header">
                             <i class="check icon"></i>
                             <div class="content">

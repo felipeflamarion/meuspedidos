@@ -15,12 +15,12 @@ def populate():
     add_cliente(id=4, nome="Imperador", sobrenome="Palpatine")
     add_cliente(id=5, nome="Han", sobrenome="Solo")
 
-    add_produto(id=1, nome="Millenium Falcon", preco_unitario=550000.00, multiplo=None)
+    add_produto(id=1, nome="Millenium Falcon", preco_unitario=550000.00, multiplo=1)
     add_produto(id=2, nome="X-Wing", preco_unitario=60000.00, multiplo=2)
-    add_produto(id=3, nome="Super Star Destroyer", preco_unitario=4570000.00, multiplo=None)
+    add_produto(id=3, nome="Super Star Destroyer", preco_unitario=4570000.00, multiplo=1)
     add_produto(id=4, nome="TIE Fighter", preco_unitario=75000.00, multiplo=2)
     add_produto(id=5, nome="Lightsaber", preco_unitario=6000.00, multiplo=5)
-    add_produto(id=6, nome="DLT-19 Heavy Blaster Rifle", preco_unitario=5800.00, multiplo=None)
+    add_produto(id=6, nome="DLT-19 Heavy Blaster Rifle", preco_unitario=5800.00, multiplo=1)
     add_produto(id=7, nome="DL-44 Heavy Blaster Pistol", preco_unitario=1500.00, multiplo=10)
 
 
@@ -29,7 +29,7 @@ def add_cliente(id, nome, sobrenome):
     cliente.save()
     return cliente
 
-def add_produto(id, nome, preco_unitario, multiplo=None):
+def add_produto(id, nome, preco_unitario):
     produto = ProdutoModel.objects.get_or_create(id=id, nome=nome, preco_unitario=preco_unitario, multiplo=multiplo)[0]
     produto.save()
     return produto

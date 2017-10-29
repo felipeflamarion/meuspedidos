@@ -5,7 +5,7 @@ class ProdutoModel(models.Model):
 
     nome = models.CharField(max_length=50)
     preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
-    multiplo = models.IntegerField(null=True)
+    multiplo = models.IntegerField(default=1)
 
     def __str__(self):
         return '%s' %self.nome

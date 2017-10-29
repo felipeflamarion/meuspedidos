@@ -24,9 +24,7 @@ class PedidoView(View):
             if pedido_ativo.existe():
                 pedido_ativo.excluir()
             pedido_ativo.inicializar(pedido_novo.id)
-            return HttpResponseRedirect(
-                urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido_novo.id}) + '?criado=True'
-            )
+            return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido_novo.id}) + '?criado=True')
 
         context_dict['mensagem'] = {'codigo': False, 'texto': 'Não foi possível registrar o pedido!'}
         context_dict['pedido_ativo'] = pedido_ativo.get_objeto_pedido()
@@ -42,9 +40,7 @@ class PedidoView(View):
         pedido_ativo.inicializar(pedido.id)
         pedido.finalizado = False
         pedido.save()
-        return HttpResponseRedirect(
-            urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?reaberto=True'
-        )
+        return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?reaberto=True')
 
     @classmethod
     def Listar(self, request):
@@ -52,19 +48,19 @@ class PedidoView(View):
         pedidos = PedidoModel.objects.all().order_by('-data')
         context_dict['pedidos'] = pedidos
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
+        if request.GET.get('cancelado') == 'True':
+            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido cancelado!'}
         return render(request, 'pedidos/lista_pedidos.html', context_dict)
 
     @classmethod
     def Cancelar(self, request):
-        context_dict = {}
         pedido_ativo = SessaoPedido(request=request)
         pedido = pedido_ativo.get_objeto_pedido()
         for item in ItemModel.objects.filter(pedido=pedido):
             item.delete()
         pedido_ativo.get_objeto_pedido().delete()
         pedido_ativo.excluir()
-        context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido cancelado!'}
-        return render(request, 'pedidos/index.html', context_dict)
+        return HttpResponseRedirect(urlresolvers.reverse('lista_pedidos') + '?cancelado=True')
 
     @classmethod
     def Finalizar(self, request):
@@ -77,8 +73,7 @@ class PedidoView(View):
                 pedido.finalizado = True
                 pedido.save()
                 pedido_atual.excluir()
-                context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido finalizado com sucesso!'}
-                return render(request, 'pedidos/index.html', context_dict)
+                return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?finalizado=True')
             else:
                 mensagem = {'codigo': False, 'texto': 'Um pedido deve conter pelo menos 1 item!'}
         else:
@@ -98,9 +93,14 @@ class PedidoView(View):
         context_dict['pedido'] = pedido
         context_dict['itens'] = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
+
         if request.GET.get('criado') == 'True':
             context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido criado!'}
         elif request.GET.get('reaberto') == 'True':
             context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido reaberto!'}
+        elif request.GET.get('finalizado') == 'True':
+            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido finalizado!'}
+        elif request.GET.get('removido') == 'True':
+            context_dict['mensagem'] = {'codigo': True, 'texto': 'Item removido do pedido!'}
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 

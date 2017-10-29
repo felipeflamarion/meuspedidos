@@ -1,35 +1,122 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}{% load static %}
 
 {% block title %}Visualizar Item{% endblock %}
 
 {% block content %}
-    <h2>Item {{ item.produto.nome }}</h2>
-    <h4>Pedido: {{ item.pedido }}</h4>
+    {% include 'mensagem.html' %}
 
-    {% if pedido_ativo %}
-    <p>
-        <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">Voltar</a> -
-        <a href="{% url 'excluir_item' id_item=item.id %}">Excluir</a>
-    </p>
-    {% endif %}
+    <div class="ui grid">
+        <div class="row">
+            <div class="eight wide column">
+                <div class="ui segment">
+                    <h1 class="ui header">
+                        <div class="content">
+                            Informações
+                            <div class="sub header">Detalhes sobre o item</div>
+                        </div>
+                    </h1>
 
-    {% if mensagem %}
-    <span>
-        <p><i>{{ mensagem.texto }}</i></p>
-        {% if mensagem.codigo == False %}
-            {{ form.errors }}
-        {% endif %}
-    </span>
-    {% endif %}
+                    <h3 class="ui header">
+                        <i class="tag icon"></i>
+                        <div class="content">
+                            {{ item.produto.nome }}
+                            <div class="sub header">
+                                <a href="{% url 'visualizar_produto' id_produto=item.produto.id %}">Produto</a>
+                            </div>
+                        </div>
+                    </h3>
 
-    {% if pedido_ativo and item_form %}
-        {% if not mensagem.codigo %}
-        <form method="POST" action="{% url 'editar_item' id_item=item.id %}">{% csrf_token %}
-            <input type="hidden" name="produto" value="{{ produto.id }}"/>
-            {{ item_form.as_p }}
-            <input type="submit" value="Editar">
-        </form>
-        {% endif %}
-    {% endif %}
+                    <h3 class="ui header">
+                        <i class="shop icon"></i>
+                        <div class="content">
+                            {{ item.pedido.cliente.nome }} {{ item.pedido.cliente.sobrenome }}
+                            em {{ item.pedido.data|date:"d/m/Y" }}
+                            <div class="sub header">
+                                <a href="{% url 'visualizar_pedido' id_pedido=item.pedido.id %}">Pedido</a>
+                            </div>
+                        </div>
+                    </h3>
 
+                    <h3 class="ui header">
+                        <i class="list layout icon"></i>
+                        <div class="content">
+                            {{ item.quantidade }} unidade(s)
+                            <div class="sub header">Quantidade</div>
+                        </div>
+                    </h3>
+
+                    <h3 class="ui header">
+                        <i class="dollar icon"></i>
+                        <div class="content">
+                            R$ {{ item.preco }}
+                            <div class="sub header">Preço</div>
+                        </div>
+                    </h3>
+
+                    {% if item.rentabilidade == 2 %}
+                    <h3 class="ui green header">
+                    {% elif item.rentabilidade == 1 %}
+                    <h3 class="ui olive header">
+                    {% else %}
+                    <h3 class="ui orange header">
+                    {% endif %}
+                        <i class="percent icon"></i>
+                        <div class="content">
+                            {% if item.rentabilidade == 2 %}
+                                Ótima
+                            {% elif item.rentabilidade == 1 %}
+                                Boa
+                            {% else %}
+                                Ruim
+                            {% endif %}
+                            <div class="sub header">Rentabilidade</div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+            <div class="eight wide column">
+                <div class="ui segment">
+                    <h1 class="ui header">
+                        <div class="content">
+                            Editar
+                            <div class="sub header">Ajuste as informações do item</div>
+                        </div>
+                    </h1>
+
+                    {% if pedido_ativo and item_form %}
+                    <form method="POST" action="{% url 'editar_item' id_item=item.id %}" class="ui big form">
+                        {% csrf_token %}
+                        <input type="hidden" name="produto" value="{{ produto.id }}"/>
+                        <div class="fields">
+                            <div class="six wide field">
+                                <label>{{ item_form.quantidade.label }}</label>
+                                {{ item_form.quantidade }}
+                            </div>
+                            <div class="ten wide field">
+                                <label>{{ item_form.preco.label }} em R$</label>
+                                {{ item_form.preco }}
+                            </div>
+                        </div>
+                        <input type="submit" class="ui blue submit fluid button" value="Salvar alterações">
+                    </form>
+                    {% endif %}
+                </div>
+
+                <div class="ui vertical fluid inverted black menu">
+                    <a class="item excluir" href="{% url 'excluir_item' id_item=item.id %}?destino=pedido">
+                        <i class="remove icon"></i>
+                        Remover item
+                    </a>
+                    <a class="item" href="{% url 'visualizar_pedido' id_pedido=item.pedido.id %}">
+                        <i class="shop icon"></i>
+                        Visualizar pedido
+                    </a>
+                    <a class="item" href="{% url 'visualizar_produto' id_produto=item.produto.id %}">
+                        <i class="tag icon"></i>
+                        Visualizar produto
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

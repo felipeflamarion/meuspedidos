@@ -5,3 +5,23 @@
 .pedido.situacao.finalizado{
     color: forestgreen!important;
 }
+
+.item.adicionado{
+    background: #dce5e8 !important;
+}
+
+.descricao{
+    margin: 10px 0px 10px 0px;
+}
+
+.preco.header{
+    font-size: 40px !important;
+}
+
+.menu .item.excluir{
+    background: #b72a2a!important;
+}
+
+.menu .item.excluir:hover{
+    background: #c63d3d!important;
+}

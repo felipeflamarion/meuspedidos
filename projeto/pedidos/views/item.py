@@ -21,7 +21,7 @@ class ItemView(View):
             item.pedido = pedido_ativo
             item.produto = produto
             item.save()
-            mensagem = {'codigo': True, 'texto': 'Item adicionado ao pedido!'}
+            return HttpResponseRedirect(urlresolvers.reverse('visualizar_produto', kwargs={'id_produto': produto.id}) + '?adicionado=True')
         else:
             mensagem = {'codigo': False, 'texto': 'Não foi possível adicionar o item!'}
 
@@ -37,15 +37,15 @@ class ItemView(View):
         item = ItemModel.objects.get(pk=id_item)
         if not item.pedido.finalizado:
             item.delete()
-            return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': item.pedido.id}))
+            if request.GET.get('destino') == 'pedido':
+                return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': item.pedido.id}) + '?removido=True')
+            return HttpResponseRedirect(urlresolvers.reverse('visualizar_produto', kwargs={'id_produto': item.produto.id}) + '?removido=True')
         else:
-            mensagem = {'codigo': False, 'texto': 'Não é possível excluir itens de um pedido finalizado! Reabra o pedido para excluir!'}
-        print(mensagem)
-        # context_dict['mensagem'] = mensagem
-        # context_dict['produto'] = item.produto
-        # context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
-        # return render(request, 'pedidos/visualizar_produto.html', context_dict)
-        return HttpResponseRedirect(urlresolvers.reverse('index'))
+            context_dict['mensagem'] = {'codigo': False, 'texto': 'Não é possível excluir itens de um pedido finalizado! Reabra o pedido para excluir!'}
+        context_dict['pedido'] = item.pedido
+        context_dict['itens'] = ItemModel.objects.filter(pedido=item.pedido)
+        context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
+        return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 
     @classmethod
     def Visualizar(self, request, id_item):
@@ -58,6 +58,9 @@ class ItemView(View):
 
     @classmethod
     def Editar(self, request, id_item):
+        if request.method == 'GET':
+            return HttpResponseRedirect(urlresolvers.reverse('visualizar_item', kwargs={'id_item': id_item}))
+
         context_dict = {}
         item = ItemModel.objects.get(pk=id_item)
         item_form = ItemForm(instance=item, data=request.POST)

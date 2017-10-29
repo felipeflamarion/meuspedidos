@@ -5,8 +5,8 @@
 {% block content %}
     {% include 'mensagem.html' %}
 
-    <div class="ui right aligned segment">
-        <h1 class="ui left floated aligned header">
+    <div class="ui segment">
+        <h1 class="ui header">
             <i class="clone icon"></i>
             <div class="content">
                 Lista de Pedidos
@@ -15,16 +15,13 @@
                 </div>
             </div>
         </h1>
-
         {% if not pedido_ativo %}
-            <a class="ui labeled icon right floated blue button" href="{% url 'novo_pedido' %}">
+            <a class="ui labeled icon blue fluid button" href="{% url 'novo_pedido' %}">
                 <i class="shop icon"></i>
                 Novo pedido
             </a>
         {% endif %}
-
         {% if pedidos %}
-
         <table class="ui table">
             <thead>
                 <tr>
@@ -62,7 +59,7 @@
             </tbody>
         </table>
         {% else %}
-        <div class="ui message">
+        <div class="ui left floated message">
             <span class="header">Nada por aqui!</span>
             Ainda não foram registrados os pedidos!
         </div>

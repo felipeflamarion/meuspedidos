@@ -29,7 +29,7 @@ def add_cliente(id, nome, sobrenome):
     cliente.save()
     return cliente
 
-def add_produto(id, nome, preco_unitario):
+def add_produto(id, nome, preco_unitario, multiplo):
     produto = ProdutoModel.objects.get_or_create(id=id, nome=nome, preco_unitario=preco_unitario, multiplo=multiplo)[0]
     produto.save()
     return produto

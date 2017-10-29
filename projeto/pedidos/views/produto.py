@@ -16,7 +16,7 @@ class ProdutoView(View):
         pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
 
         context_dict['produto'] = produto
-        context_dict['item_form'] = ItemForm(preco=produto.preco_unitario, quantidade=produto.multiplo)
+        context_dict['form'] = ItemForm(preco=produto.preco_unitario, quantidade=produto.multiplo)
         context_dict['pedido_ativo'] = pedido_ativo
 
         if pedido_ativo:
@@ -64,7 +64,7 @@ class ProdutoView(View):
             mensagem = {'codigo': False, 'texto': 'Não foi possível adicionar o item ao pedido!'}
 
         context_dict['produto'] = produto
-        context_dict['item_form'] = ItemForm(preco=produto.preco_unitario, quantidade=produto.multiplo)
+        context_dict['form'] = ItemForm(preco=produto.preco_unitario, quantidade=produto.multiplo)
         context_dict['pedido_ativo'] = pedido_ativo
         context_dict['mensagem'] = mensagem
         return render(request, 'pedidos/visualizar_produto.html', context_dict)

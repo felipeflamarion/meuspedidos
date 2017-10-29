@@ -9,8 +9,8 @@
         <i class="close icon"></i>
         {{ mensagem.texto }}
 
-        {% if item_form.errors %}
-            {% for error in item_form.errors %}
+        {% if form.errors %}
+            {% for error in form.errors %}
             {{ errors }}
             {% endfor %}
         {% endif %}

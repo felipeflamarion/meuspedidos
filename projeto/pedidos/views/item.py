@@ -52,7 +52,7 @@ class ItemView(View):
         context_dict = {}
         item = ItemModel.objects.get(pk=id_item)
         context_dict['item'] = item
-        context_dict['item_form'] = ItemForm(instance=item, preco=item.preco, quantidade=item.quantidade)
+        context_dict['form'] = ItemForm(instance=item, preco=item.preco, quantidade=item.quantidade)
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
         return render(request, 'pedidos/visualizar_item.html', context_dict)
 
@@ -63,12 +63,12 @@ class ItemView(View):
 
         context_dict = {}
         item = ItemModel.objects.get(pk=id_item)
-        item_form = ItemForm(instance=item, data=request.POST)
+        form = ItemForm(instance=item, data=request.POST)
         pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
 
-        if item_form.is_valid():
+        if form.is_valid():
             if not item.pedido.finalizado:
-                item_form.save()
+                form.save()
                 mensagem = {'codigo': True, 'texto': 'Item editado!'}
             else:
                 mensagem = {'codigo': False, 'texto': 'Não é permitido editar itens de pedidos finalizados! Reabra o pedido para editar!'}
@@ -78,5 +78,5 @@ class ItemView(View):
         context_dict['item'] = item
         context_dict['pedido_ativo'] = pedido_ativo
         context_dict['mensagem'] = mensagem
-        context_dict['item_form'] = item_form
+        context_dict['form'] = form
         return render(request, 'pedidos/visualizar_item.html', context_dict)

@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                {% if pedido_ativo and item_form %}
+                {% if pedido_ativo and form %}
                     {% if produto not in pedido_ativo.itens.all %}
                     <div class="ui left aligned blue segment">
                         <div class="ui error quantidade hidden message">
@@ -65,12 +65,12 @@
                             <input type="hidden" id="multiplo_de_venda" value="{{ produto.multiplo }}"/>
                             <div class="fields">
                                 <div class="six wide quantidade field">
-                                    <label>{{ item_form.quantidade.label }}</label>
-                                    {{ item_form.quantidade }}
+                                    <label>{{ form.quantidade.label }}</label>
+                                    {{ form.quantidade }}
                                 </div>
                                 <div class="ten wide field">
-                                    <label>{{ item_form.preco.label }} em R$</label>
-                                    {{ item_form.preco }}
+                                    <label>{{ form.preco.label }} em R$</label>
+                                    {{ form.preco }}
                                 </div>
                             </div>
                             <input type="submit" class="ui blue submit fluid button" value="Adicionar ao pedido">

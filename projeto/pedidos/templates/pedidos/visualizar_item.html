@@ -90,18 +90,18 @@
                         <i class="close icon"></i>
                     </div>
 
-                    {% if pedido_ativo and item_form %}
+                    {% if pedido_ativo and form %}
                     <form method="POST" action="{% url 'editar_item' id_item=item.id %}" class="ui big item form">
                         {% csrf_token %}
                         <input type="hidden" id="multiplo_de_venda" value="{{ item.produto.multiplo }}"/>
                         <div class="fields">
                             <div class="six wide quantidade field">
-                                <label>{{ item_form.quantidade.label }}</label>
-                                {{ item_form.quantidade }}
+                                <label>{{ form.quantidade.label }}</label>
+                                {{ form.quantidade }}
                             </div>
                             <div class="ten wide field">
-                                <label>{{ item_form.preco.label }} em R$</label>
-                                {{ item_form.preco }}
+                                <label>{{ form.preco.label }} em R$</label>
+                                {{ form.preco }}
                             </div>
                         </div>
                         <input type="submit" class="ui blue submit fluid button" value="Salvar alterações">

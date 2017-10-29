@@ -17,6 +17,15 @@
 
             <div class="ui centered grid">
                 <div class="eight wide column">
+                    {% if not pedido_ativo %}
+                    <a href="{% url 'novo_pedido' %}" class="ui blue big fluid button">
+                        <i class="shop icon"></i>
+                        Iniciar pedido
+                    </a>
+                    {% endif %}
+
+                    <div class="ui divider"></div>
+
                     <p class="lipsum" align="justify">
                     Lucas ipsum dolor sit amet kamino darth dantooine yavin luuke coruscant
                     owen antilles hutt antilles. Moff darth skywalker darth jinn greedo cade.

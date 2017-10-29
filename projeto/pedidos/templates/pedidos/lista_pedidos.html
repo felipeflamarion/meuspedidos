@@ -5,8 +5,8 @@
 {% block content %}
     {% include 'mensagem.html' %}
 
-    <div class="ui segment">
-        <h1 class="ui header">
+    <div class="ui right aligned segment">
+        <h1 class="ui left floated aligned header">
             <i class="clone icon"></i>
             <div class="content">
                 Lista de Pedidos
@@ -15,6 +15,13 @@
                 </div>
             </div>
         </h1>
+
+        {% if not pedido_ativo %}
+            <a class="ui labeled icon right floated blue button" href="{% url 'novo_pedido' %}">
+                <i class="shop icon"></i>
+                Novo pedido
+            </a>
+        {% endif %}
 
         {% if pedidos %}
 

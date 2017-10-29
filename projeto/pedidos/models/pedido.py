@@ -2,6 +2,7 @@
 from django.db import models
 from pedidos.models import ClienteModel, ProdutoModel
 
+
 class PedidoModel(models.Model):
 
     itens = models.ManyToManyField(ProdutoModel, through='ItemModel')

@@ -6,7 +6,7 @@ class SessaoPedido:
     def __init__(self, request):
         self.request = request
 
-    def inicializar(self, id_pedido):
+    def iniciar(self, id_pedido):
         self.request.session['pedido'] = id_pedido
 
     def excluir(self):

@@ -1,9 +1,10 @@
 # coding:utf-8
 from django.core import urlresolvers
+from django.db.models import Sum
 from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 from pedidos.forms import PedidoForm
-from pedidos.models import PedidoModel, ItemModel
+from pedidos.models import PedidoModel, ItemModel, ProdutoModel
 from pedidos.views.functions import SessaoPedido
 
 class PedidoView(View):
@@ -23,7 +24,7 @@ class PedidoView(View):
             pedido_novo = form.save()
             if pedido_ativo.existe():
                 pedido_ativo.excluir()
-            pedido_ativo.inicializar(pedido_novo.id)
+            pedido_ativo.iniciar(pedido_novo.id)
             return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido_novo.id}) + '?criado=True')
 
         context_dict['mensagem'] = {'codigo': False, 'texto': 'Não foi possível registrar o pedido!'}
@@ -37,7 +38,7 @@ class PedidoView(View):
         pedido_ativo = SessaoPedido(request=request)
         if pedido_ativo.existe():
             pedido_ativo.excluir()
-        pedido_ativo.inicializar(pedido.id)
+        pedido_ativo.iniciar(pedido.id)
         pedido.finalizado = False
         pedido.save()
         return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?reaberto=True')
@@ -90,8 +91,10 @@ class PedidoView(View):
     def Visualizar(self, request, id_pedido):
         context_dict = {}
         pedido = PedidoModel.objects.get(pk=id_pedido)
+        itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido
-        context_dict['itens'] = ItemModel.objects.filter(pedido=pedido)
+        context_dict['itens'] = itens
+        context_dict['valor_total'] = self.valor_total(self, itens)
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
 
         if request.GET.get('criado') == 'True':
@@ -103,4 +106,10 @@ class PedidoView(View):
         elif request.GET.get('removido') == 'True':
             context_dict['mensagem'] = {'codigo': True, 'texto': 'Item removido do pedido!'}
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
+
+    def valor_total(self, itens):
+        total = 0
+        for item in itens:
+            total += item.preco * item.quantidade
+        return total
 

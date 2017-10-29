@@ -21,78 +21,82 @@
                 </div>
             </div>
             <div class="eight wide column">
-                {% if produto in pedido_ativo.itens.all %}
-                <div class="ui green segment">
-                    <div class="ui green header">
-                        <i class="check icon"></i>
-                        <div class="content">
-                            Adicionado
-                            <div class="sub header">
-                                Produto presente no
-                                <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">pedido em andamento</a>
+                <div class="ui segment">
+                    <div class="ui fluid list">
+                        <div class="item">
+                            <div class="ui dividing header">Produto</div>
+                            <h1 class="ui header">
+                                {{ produto.nome }}
+                            </h1>
+                        </div>
+                        <div class="item">
+                            <div class="ui dividing tiny header">Descrição</div>
+                            <div class="descricao">
+                                Lucas ipsum dolor sit amet kamino darth dantooine yavin luuke coruscant
+                                owen antilles hutt antilles. Moff darth skywalker darth jinn greedo cade.
                             </div>
                         </div>
-                    </div>
-
-                    <div class="ui two buttons">
-                        <a href="{% url 'excluir_item' id_item=item.id %}" class="ui labeled icon inverted red button" title="Excluir">
-                            <i class="remove icon"></i>
-                            Excluir
-                        </a>
-                        <a href="{% url 'visualizar_item' id_item=item.id %}" class="ui labeled icon icon blue button" title="Editar">
-                            <i class="configure icon"></i>
-                            Editar
-                        </a>
-                    </div>
-                </div>
-                {% endif %}
-                <div class="ui fluid list">
-                    <div class="item">
-                        <div class="ui dividing header">Produto</div>
-                        <h1 class="ui header">
-                            {{ produto.nome }}
-                        </h1>
-                    </div>
-                    <div class="item">
-                        <div class="ui dividing tiny header">Descrição</div>
-                        <div class="descricao">
-                            Lucas ipsum dolor sit amet kamino darth dantooine yavin luuke coruscant
-                            owen antilles hutt antilles. Moff darth skywalker darth jinn greedo cade.
+                        <div class="item">
+                            <div class="ui dividing tiny header">Múltiplo de Venda</div>
+                            <div class="descricao">
+                                {{ produto.multiplo }} unidade(s)
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="ui dividing tiny header">Preço unitário</div>
+                            <h1 class="ui preco header">
+                                R$ {{ produto.preco_unitario }}
+                            </h1>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="ui dividing tiny header">Múltiplo de Venda</div>
-                        <div class="descricao">
-                            {{ produto.multiplo }} unidade(s)
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="ui dividing tiny header">Preço unitário</div>
-                        <h1 class="ui preco header">
-                            R$ {{ produto.preco_unitario }}
-                        </h1>
-                    </div>
                 </div>
-
                 {% if pedido_ativo and item_form %}
                     {% if produto not in pedido_ativo.itens.all %}
                     <div class="ui blue segment">
-                        <div class="ui header">
-                            <form method="POST" action="{% url 'novo_item' %}" class="ui big form">
-                                {% csrf_token %}
-                                <input type="hidden" name="produto" value="{{ produto.id }}"/>
-                                <div class="fields">
-                                    <div class="six wide field">
-                                        <label>{{ item_form.quantidade.label }}</label>
-                                        {{ item_form.quantidade }}
-                                    </div>
-                                    <div class="ten wide field">
-                                        <label>{{ item_form.preco.label }} em R$</label>
-                                        {{ item_form.preco }}
-                                    </div>
+                        <div class="ui error quantidade hidden message">
+                            <span class="header">Quantidade inválida</span>
+                            Não respeita o valor múltiplo de venda do produto
+                            <i class="close icon"></i>
+                        </div>
+
+                        <form method="POST" action="{% url 'novo_item' %}" class="ui big item form">
+                            {% csrf_token %}
+                            <input type="hidden" name="produto" value="{{ produto.id }}"/>
+                            <input type="hidden" id="multiplo_de_venda" value="{{ produto.multiplo }}"/>
+                            <div class="fields">
+                                <div class="six wide quantidade field">
+                                    <label>{{ item_form.quantidade.label }}</label>
+                                    {{ item_form.quantidade }}
                                 </div>
-                                <input type="submit" class="ui blue submit fluid button" value="Adicionar ao pedido">
-                            </form>
+                                <div class="ten wide field">
+                                    <label>{{ item_form.preco.label }} em R$</label>
+                                    {{ item_form.preco }}
+                                </div>
+                            </div>
+                            <input type="submit" class="ui blue submit fluid button" value="Adicionar ao pedido">
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="ui blue segment">
+                        <div class="ui blue header">
+                            <i class="check icon"></i>
+                            <div class="content">
+                                Adicionado ao Pedido
+                                <div class="sub header">
+                                    <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">Ver pedido</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui two buttons">
+                            <a href="{% url 'excluir_item' id_item=item.id %}" class="ui labeled icon inverted red button" title="Excluir">
+                                <i class="remove icon"></i>
+                                Remover
+                            </a>
+                            <a href="{% url 'visualizar_item' id_item=item.id %}" class="ui right labeled icon icon blue button" title="Editar">
+                                <i class="configure icon"></i>
+                                Editar
+                            </a>
                         </div>
                     </div>
                     {% endif %}
@@ -101,4 +105,8 @@
         </div>
     </div>
     {% endif %}
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/controle_multiplo.js' %}"></script>
 {% endblock %}

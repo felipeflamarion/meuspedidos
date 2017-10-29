@@ -1,3 +1,7 @@
+.ui.top.row{
+    padding: 10px;
+}
+
 .pedido.situacao.aberto{
     color: orange!important;
 }

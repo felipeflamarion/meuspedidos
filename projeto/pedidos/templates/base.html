@@ -11,48 +11,12 @@
 <body>
 
 <div class="ui centered grid">
-    <div class="ui blue row"></div>
+    <div class="ui blue top row"></div>
 
-    <div class="ui black row">
-        <div class="ten wide column">
-            <nav class="ui inverted menu">
-                <a class="item" href="{% url 'index' %}">Início</a>
-                <a class="item" href="{% url 'novo_pedido' %}">Novo Pedido</a>
-                <a class="item" href="{% url 'lista_pedidos' %}">Pedidos</a>
-                <a class="item" href="{% url 'lista_produtos' %}">Produtos</a>
-            </nav>
-        </div>
-    </div>
-    {% if pedido_ativo %}
-    <div class="ui row">
-        <div class="ten wide column">
-            <div class="ui blue right aligned segment">
-                <div class="ui left floated left aligned header">
-                    <i class="shop icon"></i>
-                    <div class="content">
-                        <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">
-                        Pedido em andamento
-                        </a>
-                        <div class="sub header">
-                            De <strong>{{ pedido_ativo.cliente.nome }} {{ pedido_ativo.cliente.sobrenome }}</strong>,
-                            iniciado em <strong>{{ pedido_ativo.data|date:'d/m/Y - H:i' }}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="right menu">
-{#                    <a class="ui labeled icon inverted red button" href="{%  url 'cancelar_pedido' %}">#}
-{#                        <i class="remove icon"></i>#}
-{#                        Cancelar#}
-{#                    </a>#}
-                    <a class="ui right labeled icon blue button" href="{%  url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">
-                        Finalizar
-                        <i class="right arrow icon"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
+    {% include 'menu.html' %}
+
+    {% include 'pedido_ativo_popup.html' %}
+
     <div class="ui row">
         <div class="ten wide column">
         {% block content %}{% endblock %}

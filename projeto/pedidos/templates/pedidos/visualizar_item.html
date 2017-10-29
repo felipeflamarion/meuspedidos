@@ -21,7 +21,7 @@
                         <div class="content">
                             {{ item.produto.nome }}
                             <div class="sub header">
-                                <a href="{% url 'visualizar_produto' id_produto=item.produto.id %}">Produto</a>
+                                Produto
                             </div>
                         </div>
                     </h3>
@@ -32,7 +32,7 @@
                             {{ item.pedido.cliente.nome }} {{ item.pedido.cliente.sobrenome }}
                             em {{ item.pedido.data|date:"d/m/Y" }}
                             <div class="sub header">
-                                <a href="{% url 'visualizar_pedido' id_pedido=item.pedido.id %}">Pedido</a>
+                                Pedido
                             </div>
                         </div>
                     </h3>
@@ -75,6 +75,7 @@
                 </div>
             </div>
             <div class="eight wide column">
+                {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
                 <div class="ui segment">
                     <h1 class="ui header">
                         <div class="content">
@@ -83,12 +84,18 @@
                         </div>
                     </h1>
 
+                    <div class="ui error quantidade hidden message">
+                        <span class="header">Quantidade inválida</span>
+                        Não respeita o valor múltiplo de venda do produto
+                        <i class="close icon"></i>
+                    </div>
+
                     {% if pedido_ativo and item_form %}
-                    <form method="POST" action="{% url 'editar_item' id_item=item.id %}" class="ui big form">
+                    <form method="POST" action="{% url 'editar_item' id_item=item.id %}" class="ui big item form">
                         {% csrf_token %}
-                        <input type="hidden" name="produto" value="{{ produto.id }}"/>
+                        <input type="hidden" id="multiplo_de_venda" value="{{ item.produto.multiplo }}"/>
                         <div class="fields">
-                            <div class="six wide field">
+                            <div class="six wide quantidade field">
                                 <label>{{ item_form.quantidade.label }}</label>
                                 {{ item_form.quantidade }}
                             </div>
@@ -101,12 +108,14 @@
                     </form>
                     {% endif %}
                 </div>
+                {% else %}
+                <div class="ui warning message">
+                    <span class="header">Edição desabilitada!</span>
+                    Para realizar alterações no item é preciso estar com o pedido ativo!
+                </div>
+                {% endif %}
 
                 <div class="ui vertical fluid inverted black menu">
-                    <a class="item excluir" href="{% url 'excluir_item' id_item=item.id %}?destino=pedido">
-                        <i class="remove icon"></i>
-                        Remover item
-                    </a>
                     <a class="item" href="{% url 'visualizar_pedido' id_pedido=item.pedido.id %}">
                         <i class="shop icon"></i>
                         Visualizar pedido
@@ -115,8 +124,18 @@
                         <i class="tag icon"></i>
                         Visualizar produto
                     </a>
+                    {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
+                    <a class="item excluir" href="{% url 'excluir_item' id_item=item.id %}?destino=pedido">
+                        <i class="remove icon"></i>
+                        Remover item
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/controle_multiplo.js' %}"></script>
 {% endblock %}

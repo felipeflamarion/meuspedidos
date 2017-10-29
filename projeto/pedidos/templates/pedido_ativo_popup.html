@@ -1,0 +1,26 @@
+{% if pedido_ativo %}
+<div class="ui row">
+    <div class="ten wide column">
+        <div class="ui blue right aligned segment">
+            <div class="ui left floated left aligned header">
+                <i class="shop icon"></i>
+                <div class="content">
+                    <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">
+                    Pedido em andamento
+                    </a>
+                    <div class="sub header">
+                        De <strong>{{ pedido_ativo.cliente.nome }} {{ pedido_ativo.cliente.sobrenome }}</strong>,
+                        iniciado em <strong>{{ pedido_ativo.data|date:'d/m/Y - H:i' }}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="right menu">
+                <a class="ui right labeled icon blue button" href="{%  url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">
+                    Finalizar
+                    <i class="right arrow icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

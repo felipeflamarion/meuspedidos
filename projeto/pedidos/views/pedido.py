@@ -94,7 +94,7 @@ class PedidoView(View):
         itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido
         context_dict['itens'] = itens
-        context_dict['valor_total'] = self.valor_total(self, itens)
+        context_dict['valor_total'] = self.valor_total(itens)
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
 
         if request.GET.get('criado') == 'True':
@@ -107,7 +107,7 @@ class PedidoView(View):
             context_dict['mensagem'] = {'codigo': True, 'texto': 'Item removido do pedido!'}
         return render(request, 'pedidos/visualizar_pedido.html', context_dict)
 
-    def valor_total(self, itens):
+    def valor_total(itens):
         total = 0
         for item in itens:
             total += item.preco * item.quantidade

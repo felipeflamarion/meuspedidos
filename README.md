@@ -9,6 +9,17 @@ __Linguagem:__ Python 3.5 (Django Framework 1.11)
 
 __Banco de Dados:__ SQLite
 
+## Instalação
+
+1. git clone https://github.com/felipeflamarion/meuspedidos.git
+2. virtualenv -p python3 nome_virtualenv
+3. cd meuspedidos/projeto/
+4. pip install -r requirements.txt
+5. python manage.py makemigrations
+6. python manage.py migrate
+7. python populate.py
+8. python manage.py runserver
+
 ### RF - Requisitos Funcionais
 * O sistema deve permitir (CRUD) o cadastro de pedidos;
 * O sistema deve listar os produtos ofertados;

@@ -1,6 +1,6 @@
 # coding:utf-8
 from django.core import urlresolvers
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
 from django.views import View
 from pedidos.models import ProdutoModel, ItemModel
@@ -12,7 +12,10 @@ class ProdutoView(View):
     @classmethod
     def Visualizar(self, request, id_produto=None):
         context_dict = {}
-        produto = ProdutoModel.objects.get(pk=id_produto)
+        try:
+            produto = ProdutoModel.objects.get(pk=id_produto)
+        except ProdutoModel.DoesNotExist:
+            return HttpResponseNotFound('<h1>404</h1><p>Produto %s não existe!' %id_produto)
         pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
 
         context_dict['produto'] = produto
@@ -44,7 +47,10 @@ class ProdutoView(View):
     @classmethod
     def AdicaoRapida(self, request, id_produto):
         context_dict = {}
-        produto = ProdutoModel.objects.get(pk=id_produto)
+        try:
+            produto = ProdutoModel.objects.get(pk=id_produto)
+        except ProdutoModel.DoesNotExist:
+            return HttpResponseNotFound('<h1>404</h1><p>Produto %s não existe!' %id_produto)
         pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
 
         if produto and pedido_ativo:

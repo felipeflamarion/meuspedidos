@@ -1,10 +1,10 @@
 # coding:utf-8
 from django.core import urlresolvers
-from django.db.models import Sum
+from django.http import Http404, HttpResponseNotFound
 from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 from pedidos.forms import PedidoForm
-from pedidos.models import PedidoModel, ItemModel, ProdutoModel
+from pedidos.models import PedidoModel, ItemModel
 from pedidos.views.functions import SessaoPedido
 
 class PedidoView(View):
@@ -34,7 +34,10 @@ class PedidoView(View):
 
     @classmethod
     def Continuar(self, request, id_pedido):
-        pedido = PedidoModel.objects.get(pk=id_pedido)
+        try:
+            pedido = PedidoModel.objects.get(pk=id_pedido)
+        except PedidoModel.DoesNotExist:
+            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s não existe!' %id_pedido)
         pedido_ativo = SessaoPedido(request=request)
         if pedido_ativo.existe():
             pedido_ativo.excluir()
@@ -90,7 +93,10 @@ class PedidoView(View):
     @classmethod
     def Visualizar(self, request, id_pedido):
         context_dict = {}
-        pedido = PedidoModel.objects.get(pk=id_pedido)
+        try:
+            pedido = PedidoModel.objects.get(pk=id_pedido)
+        except PedidoModel.DoesNotExist:
+            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s não existe!' %id_pedido)
         itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido
         context_dict['itens'] = itens

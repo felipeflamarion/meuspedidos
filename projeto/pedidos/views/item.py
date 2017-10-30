@@ -1,5 +1,6 @@
 # coding:utf-8
 from django.core import urlresolvers
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 
@@ -34,7 +35,11 @@ class ItemView(View):
     @classmethod
     def Excluir(self, request, id_item):
         context_dict = {}
-        item = ItemModel.objects.get(pk=id_item)
+        try:
+            item = ItemModel.objects.get(pk=id_item)
+        except ItemModel.DoesNotExist:
+            return HttpResponseNotFound('<h1>404</h1><p>Item %s não existe!' %id_item)
+
         if not item.pedido.finalizado:
             item.delete()
             if request.GET.get('destino') == 'pedido':
@@ -50,7 +55,10 @@ class ItemView(View):
     @classmethod
     def Visualizar(self, request, id_item):
         context_dict = {}
-        item = ItemModel.objects.get(pk=id_item)
+        try:
+            item = ItemModel.objects.get(pk=id_item)
+        except ItemModel.DoesNotExist:
+            return HttpResponseNotFound('<h1>404</h1><p>Item %s não existe!' %id_item)
         context_dict['item'] = item
         context_dict['form'] = ItemForm(instance=item, preco=item.preco, quantidade=item.quantidade)
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
@@ -60,9 +68,11 @@ class ItemView(View):
     def Editar(self, request, id_item):
         if request.method == 'GET':
             return HttpResponseRedirect(urlresolvers.reverse('visualizar_item', kwargs={'id_item': id_item}))
-
         context_dict = {}
-        item = ItemModel.objects.get(pk=id_item)
+        try:
+            item = ItemModel.objects.get(pk=id_item)
+        except ItemModel.DoesNotExist:
+            return HttpResponseNotFound('<h1>404</h1><p>Item %s não existe!' %id_item)
         form = ItemForm(instance=item, data=request.POST)
         pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
 

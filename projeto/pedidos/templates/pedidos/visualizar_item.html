@@ -84,13 +84,13 @@
                             </div>
                         </h1>
 
-                        <div class="ui error quantidade hidden message">
-                            <span class="header">Quantidade inválida</span>
-                            Não respeita o valor múltiplo de venda do produto
-                            <i class="close icon"></i>
-                        </div>
-
                         {% if pedido_ativo and form %}
+                            <div class="ui error quantidade hidden message">
+                                <span class="header">Quantidade inválida</span>
+                                Não respeita o valor múltiplo de venda do produto: {{ item.produto.multiplo }}.
+                                <i class="close icon"></i>
+                            </div>
+
                             <form method="POST" action="{% url 'editar_item' id_item=item.id %}"
                                   class="ui big item form">
                                 {% csrf_token %}

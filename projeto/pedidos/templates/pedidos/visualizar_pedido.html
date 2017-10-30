@@ -35,22 +35,23 @@
                     </h4>
                 </td>
                 <td class="item">
-                    <h4 class="ui header">
-                        {% if pedido.finalizado %}
-                            <i class="lock icon"></i>
-                        {% else %}
-                            <i class="unlock alternate icon"></i>
-                        {% endif %}
-
+                    {% if pedido.finalizado %}
+                    <h4 class="ui situacao finalizado pedido header">
+                        <i class="lock icon"></i>
                         <div class="content">
-                            {% if pedido.finalizado %}
-                                Finalizado
-                            {% else %}
-                                Aberto
-                            {% endif %}
-                            <div class="sub header">Estado</div>
+                            Fechado
+                            <div class="sub header">Pedido</div>
                         </div>
                     </h4>
+                    {% else %}
+                    <h4 class="ui situacao aberto pedido header">
+                        <i class="unlock alternate icon"></i>
+                        <div class="content">
+                            Aberto
+                            <div class="sub header">Pedido</div>
+                        </div>
+                    </h4>
+                    {% endif %}
                 </td>
             </tr>
         </table>
@@ -146,13 +147,14 @@
         {% else %}
         <a href="{% url 'finalizar_pedido' %}" class="ui right labeled icon blue button">
             <i class="check icon"></i>
-            Confirmar Pedido
+            Finalizar Pedido
         </a>
         {% endif %}
     </div>
     {% else %}
     <a href="{% url 'continuar_pedido' id_pedido=pedido.id %}" class="ui bottom attached blue big button">
-        Continuar pedido
+        <i class="configure icon"></i>
+        Alterar Pedido
     </a>
     {% endif %}
 

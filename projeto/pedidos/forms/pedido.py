@@ -4,7 +4,6 @@ from pedidos.models import PedidoModel, ClienteModel
 
 
 class PedidoForm(forms.ModelForm):
-
     cliente = forms.ModelChoiceField(
         required=True,
         queryset=ClienteModel.objects.all(),

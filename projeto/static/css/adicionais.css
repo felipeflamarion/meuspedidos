@@ -1,36 +1,36 @@
-.ui.top.row{
+.ui.top.row {
     padding: 10px;
 }
 
-.pedido.situacao.aberto{
-    color: orange!important;
+.pedido.situacao.aberto {
+    color: orange !important;
 }
 
-.pedido.situacao.finalizado{
-    color: forestgreen!important;
+.pedido.situacao.finalizado {
+    color: forestgreen !important;
 }
 
-.item.adicionado{
+.item.adicionado {
     background: #dce5e8 !important;
 }
 
-.descricao{
+.descricao {
     margin: 10px 0px 10px 0px;
 }
 
-.preco.header{
+.preco.header {
     font-size: 40px !important;
 }
 
-.menu .item.excluir{
-    background: #b72a2a!important;
+.menu .item.excluir {
+    background: #b72a2a !important;
 }
 
-.menu .item.excluir:hover{
-    background: #c63d3d!important;
+.menu .item.excluir:hover {
+    background: #c63d3d !important;
 }
 
-.ui.blue.basic.button:hover{
-    background: black!important;
-    color: white!important;
+.ui.blue.basic.button:hover {
+    background: black !important;
+    color: white !important;
 }

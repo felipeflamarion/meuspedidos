@@ -36,21 +36,21 @@
                 </td>
                 <td class="item">
                     {% if pedido.finalizado %}
-                    <h4 class="ui situacao finalizado pedido header">
-                        <i class="lock icon"></i>
-                        <div class="content">
-                            Fechado
-                            <div class="sub header">Pedido</div>
-                        </div>
-                    </h4>
+                        <h4 class="ui situacao finalizado pedido header">
+                            <i class="lock icon"></i>
+                            <div class="content">
+                                Fechado
+                                <div class="sub header">Pedido</div>
+                            </div>
+                        </h4>
                     {% else %}
-                    <h4 class="ui situacao aberto pedido header">
-                        <i class="unlock alternate icon"></i>
-                        <div class="content">
-                            Aberto
-                            <div class="sub header">Pedido</div>
-                        </div>
-                    </h4>
+                        <h4 class="ui situacao aberto pedido header">
+                            <i class="unlock alternate icon"></i>
+                            <div class="content">
+                                Aberto
+                                <div class="sub header">Pedido</div>
+                            </div>
+                        </h4>
                     {% endif %}
                 </td>
             </tr>
@@ -60,58 +60,60 @@
             <div class="ui dividing header">Produtos</div>
             <table class="ui attached definition table">
                 <thead>
-                    <tr>
-                        <th></th>
-                        <th>Produto</th>
-                        <th class="center aligned">Quantidade</th>
-                        <th class="center aligned">Preço<br /> (Unidade)</th>
-                        <th class="center aligned">Preço Original<br /> (Unidade)</th>
-                        <th class="right aligned">Rentabilidade</th>
-                    </tr>
+                <tr>
+                    <th></th>
+                    <th>Produto</th>
+                    <th class="center aligned">Quantidade</th>
+                    <th class="center aligned">Preço<br/> (Unidade)</th>
+                    <th class="center aligned">Preço Original<br/> (Unidade)</th>
+                    <th class="right aligned">Rentabilidade</th>
+                </tr>
                 </thead>
                 <tbody>
                 {% for item in itens %}
-                <tr>
-                    <td class="center aligned">
-                    {% if not item.pedido.finalizado and pedido_ativo %}
-                    <div class="ui icon small compact fluid buttons">
-                        <a href="{% url 'visualizar_item' id_item=item.id %}" class="ui icon black button" title="Editar">
-                            <i class="configure icon"></i>
-                        </a>
-                        <a href="{% url 'excluir_item' id_item=item.id %}?destino=pedido" class="ui icon inverted red button" title="Excluir">
-                            <i class="remove icon"></i>
-                        </a>
-                    </div>
-                    {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url 'visualizar_produto' id_produto=item.produto.id %}">
-                            {{ item.produto.nome }}
-                        </a>
-                    </td>
-                    <td class="center aligned">{{ item.quantidade }}</td>
-                    <td class="center aligned">R$ {{ item.preco }}</td>
-                    <td class="disabled center aligned">R$ {{ item.produto.preco_unitario }}</td>
-                    <td class="right aligned">
-                    {% if item.rentabilidade == 2 %}
-                        <div class="ui green tag label">Ótima</div>
-                    {% elif item.rentabilidade == 1 %}
-                        <div class="ui olive tag label">Boa</div>
-                    {% else %}
-                        <div class="ui orange tag label">Ruim</div>
-                    {% endif %}
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="center aligned">
+                            {% if not item.pedido.finalizado and pedido_ativo %}
+                                <div class="ui icon small compact fluid buttons">
+                                    <a href="{% url 'visualizar_item' id_item=item.id %}" class="ui icon black button"
+                                       title="Editar">
+                                        <i class="configure icon"></i>
+                                    </a>
+                                    <a href="{% url 'excluir_item' id_item=item.id %}?destino=pedido"
+                                       class="ui icon inverted red button" title="Excluir">
+                                        <i class="remove icon"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'visualizar_produto' id_produto=item.produto.id %}">
+                                {{ item.produto.nome }}
+                            </a>
+                        </td>
+                        <td class="center aligned">{{ item.quantidade }}</td>
+                        <td class="center aligned">R$ {{ item.preco }}</td>
+                        <td class="disabled center aligned">R$ {{ item.produto.preco_unitario }}</td>
+                        <td class="right aligned">
+                            {% if item.rentabilidade == 2 %}
+                                <div class="ui green tag label">Ótima</div>
+                            {% elif item.rentabilidade == 1 %}
+                                <div class="ui olive tag label">Boa</div>
+                            {% else %}
+                                <div class="ui orange tag label">Ruim</div>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
 
             {% if not pedido.finalizado %}
                 {% if pedido == pedido_ativo %}
-                <a class="ui compact labeled icon bottom attached black button" href="{% url 'lista_produtos' %}">
-                    <i class="add to cart icon"></i>
-                    Adicionar mais produtos
-                </a>
+                    <a class="ui compact labeled icon bottom attached black button" href="{% url 'lista_produtos' %}">
+                        <i class="add to cart icon"></i>
+                        Adicionar mais produtos
+                    </a>
                 {% endif %}
             {% endif %}
         {% else %}
@@ -122,40 +124,40 @@
         {% endif %}
 
         {% if valor_total %}
-        <h1 class="ui centered header">
-            <div class="content">
-                R$ {{ valor_total }}
-                <div class="sub header">
-                    Valor total do pedido
+            <h1 class="ui centered header">
+                <div class="content">
+                    R$ {{ valor_total }}
+                    <div class="sub header">
+                        Valor total do pedido
+                    </div>
                 </div>
-            </div>
-        </h1>
-        {% endif  %}
+            </h1>
+        {% endif %}
     </div>
 
     {% if pedido == pedido_ativo %}
-    <div class="ui two bottom attached big buttons">
-        <a href="{% url 'cancelar_pedido' %}" class="ui labeled icon inverted red button">
-            <i class="remove icon"></i>
-            Cancelar Pedido
-        </a>
-        {% if pedido.itens.all|length < 1 %}
-        <a href="{% url 'lista_produtos' %}" class="ui right labeled icon blue button">
-            <i class="add to cart icon"></i>
-            Adicionar itens
-        </a>
-        {% else %}
-        <a href="{% url 'finalizar_pedido' %}" class="ui right labeled icon blue button">
-            <i class="check icon"></i>
-            Finalizar Pedido
-        </a>
-        {% endif %}
-    </div>
+        <div class="ui two bottom attached big buttons">
+            <a href="{% url 'cancelar_pedido' %}" class="ui labeled icon inverted red button">
+                <i class="remove icon"></i>
+                Cancelar Pedido
+            </a>
+            {% if pedido.itens.all|length < 1 %}
+                <a href="{% url 'lista_produtos' %}" class="ui right labeled icon blue button">
+                    <i class="add to cart icon"></i>
+                    Adicionar itens
+                </a>
+            {% else %}
+                <a href="{% url 'finalizar_pedido' %}" class="ui right labeled icon blue button">
+                    <i class="check icon"></i>
+                    Finalizar Pedido
+                </a>
+            {% endif %}
+        </div>
     {% else %}
-    <a href="{% url 'continuar_pedido' id_pedido=pedido.id %}" class="ui bottom attached blue big button">
-        <i class="configure icon"></i>
-        Alterar Pedido
-    </a>
+        <a href="{% url 'continuar_pedido' id_pedido=pedido.id %}" class="ui bottom attached blue big button">
+            <i class="configure icon"></i>
+            Alterar Pedido
+        </a>
     {% endif %}
 
 {% endblock %}

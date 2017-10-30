@@ -1,8 +1,8 @@
 # coding:utf-8
 from pedidos.models import PedidoModel
 
-class SessaoPedido:
 
+class SessaoPedido:
     def __init__(self, request):
         self.request = request
 

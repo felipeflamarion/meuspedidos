@@ -1,18 +1,18 @@
 {% if mensagem %}
     {% if mensagem.codigo %}
-    <div class="ui success message">
+        <div class="ui success message">
         <span class="header">Sucesso!</span>
     {% else %}
-    <div class="ui error message">
+        <div class="ui error message">
         <span class="header">Falhou!</span>
     {% endif %}
-        <i class="close icon"></i>
-        {{ mensagem.texto }}
+<i class="close icon"></i>
+{{ mensagem.texto }}
 
-        {% if form.errors %}
-            {% for error in form.errors %}
-            {{ errors }}
-            {% endfor %}
-        {% endif %}
-    </div>
+{% if form.errors %}
+    {% for error in form.errors %}
+        {{ errors }}
+    {% endfor %}
+{% endif %}
+</div>
 {% endif %}

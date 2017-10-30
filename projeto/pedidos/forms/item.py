@@ -1,10 +1,10 @@
-    # coding:utf-8
+# coding:utf-8
 from django import forms
 
 from pedidos.models import ItemModel
 
-class ItemForm(forms.ModelForm):
 
+class ItemForm(forms.ModelForm):
     quantidade = forms.IntegerField(min_value=1)
 
     def clean_preco(self):

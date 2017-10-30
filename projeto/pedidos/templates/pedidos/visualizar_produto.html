@@ -13,100 +13,104 @@
     {% include 'mensagem.html' %}
 
     {% if produto %}
-    <div class="ui grid">
-        <div class="row">
-            <div class="eight wide column">
-                <div class="ui fluid card">
-                    <div class="image"><img src="{% static 'imagens/default_product.jpg' %}" /></div>
-                </div>
-            </div>
-            <div class="eight wide column">
-                <div class="ui left aligned segment">
-                    <div class="ui fluid list">
-                        <div class="item">
-                            <div class="ui dividing header">Produto</div>
-                            <h1 class="ui header">
-                                {{ produto.nome }}
-                            </h1>
-                        </div>
-                        <div class="item">
-                            <div class="ui dividing tiny header">Descrição</div>
-                            <div class="descricao">
-                                Lucas ipsum dolor sit amet kamino darth dantooine yavin luuke coruscant
-                                owen antilles hutt antilles. Moff darth skywalker darth jinn greedo cade.
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="ui dividing tiny header">Múltiplo de Venda</div>
-                            <div class="descricao">
-                                {{ produto.multiplo }} unidade(s)
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="ui dividing tiny header">Preço unitário</div>
-                            <h1 class="ui preco header">
-                                R$ {{ produto.preco_unitario }}
-                            </h1>
-                        </div>
+        <div class="ui grid">
+            <div class="row">
+                <div class="eight wide column">
+                    <div class="ui fluid card">
+                        <div class="image"><img src="{% static 'imagens/default_product.jpg' %}"/></div>
                     </div>
                 </div>
-                {% if pedido_ativo and form %}
-                    {% if produto not in pedido_ativo.itens.all %}
-                    <div class="ui left aligned blue segment">
-                        <div class="ui error quantidade hidden message">
-                            <span class="header">Quantidade inválida</span>
-                            Não respeita o valor múltiplo de venda do produto
-                            <i class="close icon"></i>
-                        </div>
-
-                        <form method="POST" action="{% url 'novo_item' %}" class="ui big item form">
-                            {% csrf_token %}
-                            <input type="hidden" name="produto" value="{{ produto.id }}"/>
-                            <input type="hidden" id="multiplo_de_venda" value="{{ produto.multiplo }}"/>
-                            <div class="fields">
-                                <div class="six wide quantidade field">
-                                    <label>{{ form.quantidade.label }}</label>
-                                    {{ form.quantidade }}
-                                </div>
-                                <div class="ten wide field">
-                                    <label>{{ form.preco.label }} em R$</label>
-                                    {{ form.preco }}
+                <div class="eight wide column">
+                    <div class="ui left aligned segment">
+                        <div class="ui fluid list">
+                            <div class="item">
+                                <div class="ui dividing header">Produto</div>
+                                <h1 class="ui header">
+                                    {{ produto.nome }}
+                                </h1>
+                            </div>
+                            <div class="item">
+                                <div class="ui dividing tiny header">Descrição</div>
+                                <div class="descricao">
+                                    Lucas ipsum dolor sit amet kamino darth dantooine yavin luuke coruscant
+                                    owen antilles hutt antilles. Moff darth skywalker darth jinn greedo cade.
                                 </div>
                             </div>
-                            <input type="submit" class="ui blue submit fluid button" value="Adicionar ao pedido">
-                        </form>
-                    </div>
-                    {% else %}
-                    <div class="ui left aligned blue segment">
-                        <div class="ui blue header">
-                            <i class="check icon"></i>
-                            <div class="content">
-                                Adicionado ao Pedido
-                                <div class="sub header">
-                                    <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">Ver pedido</a>
+                            <div class="item">
+                                <div class="ui dividing tiny header">Múltiplo de Venda</div>
+                                <div class="descricao">
+                                    {{ produto.multiplo }} unidade(s)
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="ui two buttons">
-                            <a href="{% url 'excluir_item' id_item=item.id %}" class="ui labeled icon inverted red button" title="Excluir">
-                                <i class="remove icon"></i>
-                                Remover
-                            </a>
-                            <a href="{% url 'visualizar_item' id_item=item.id %}" class="ui right labeled icon icon blue button" title="Editar">
-                                <i class="configure icon"></i>
-                                Editar
-                            </a>
+                            <div class="item">
+                                <div class="ui dividing tiny header">Preço unitário</div>
+                                <h1 class="ui preco header">
+                                    R$ {{ produto.preco_unitario }}
+                                </h1>
+                            </div>
                         </div>
                     </div>
+                    {% if pedido_ativo and form %}
+                        {% if produto not in pedido_ativo.itens.all %}
+                            <div class="ui left aligned blue segment">
+                                <div class="ui error quantidade hidden message">
+                                    <span class="header">Quantidade inválida</span>
+                                    Não respeita o valor múltiplo de venda do produto
+                                    <i class="close icon"></i>
+                                </div>
+
+                                <form method="POST" action="{% url 'novo_item' %}" class="ui big item form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="produto" value="{{ produto.id }}"/>
+                                    <input type="hidden" id="multiplo_de_venda" value="{{ produto.multiplo }}"/>
+                                    <div class="fields">
+                                        <div class="six wide quantidade field">
+                                            <label>{{ form.quantidade.label }}</label>
+                                            {{ form.quantidade }}
+                                        </div>
+                                        <div class="ten wide field">
+                                            <label>{{ form.preco.label }} em R$</label>
+                                            {{ form.preco }}
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="ui blue submit fluid button"
+                                           value="Adicionar ao pedido">
+                                </form>
+                            </div>
+                        {% else %}
+                            <div class="ui left aligned blue segment">
+                                <div class="ui blue header">
+                                    <i class="check icon"></i>
+                                    <div class="content">
+                                        Adicionado ao Pedido
+                                        <div class="sub header">
+                                            <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">Ver
+                                                pedido</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui two buttons">
+                                    <a href="{% url 'excluir_item' id_item=item.id %}"
+                                       class="ui labeled icon inverted red button" title="Excluir">
+                                        <i class="remove icon"></i>
+                                        Remover
+                                    </a>
+                                    <a href="{% url 'visualizar_item' id_item=item.id %}"
+                                       class="ui right labeled icon icon blue button" title="Editar">
+                                        <i class="configure icon"></i>
+                                        Editar
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="{% static 'js/controle_multiplo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/controle_multiplo.js' %}"></script>
 {% endblock %}

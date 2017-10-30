@@ -22,8 +22,8 @@
             </a>
         {% endif %}
         {% if pedidos %}
-        <table class="ui table">
-            <thead>
+            <table class="ui table">
+                <thead>
                 <tr>
                     <th>Código</th>
                     <th>Cliente</th>
@@ -31,38 +31,38 @@
                     <th class="center aligned">Situação</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
-            {% for pedido in pedidos %}
-                <tr>
-                    <td class="left aligned">{{ pedido.id }}</td>
-                    <td>{{ pedido.cliente.nome }} {{ pedido.cliente.sobrenome }}</td>
-                    <td class="center aligned">{{ pedido.data|date:"j/n/Y" }} às {{ pedido.data|date:"H:i" }}</td>
-                    <td class="center aligned">
-                        {% if pedido.finalizado %}
-                        <span class="situacao finalizado pedido">
+                </thead>
+                <tbody>
+                {% for pedido in pedidos %}
+                    <tr>
+                        <td class="left aligned">{{ pedido.id }}</td>
+                        <td>{{ pedido.cliente.nome }} {{ pedido.cliente.sobrenome }}</td>
+                        <td class="center aligned">{{ pedido.data|date:"j/n/Y" }} às {{ pedido.data|date:"H:i" }}</td>
+                        <td class="center aligned">
+                            {% if pedido.finalizado %}
+                                <span class="situacao finalizado pedido">
                             <i class="lock icon"></i>
                             Finalizado
                         </span>
-                        {% else %}
-                        <span class="situacao aberto pedido">
+                            {% else %}
+                                <span class="situacao aberto pedido">
                             <i class="unlock alternate icon"></i>
                             Em aberto
                         </span>
-                        {% endif %}
-                    </td>
-                    <td class="center aligned">
-                        <a href="{% url 'visualizar_pedido' id_pedido=pedido.id %}">Ver mais</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                            {% endif %}
+                        </td>
+                        <td class="center aligned">
+                            <a href="{% url 'visualizar_pedido' id_pedido=pedido.id %}">Ver mais</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% else %}
-        <div class="ui left floated message">
-            <span class="header">Nada por aqui!</span>
-            Ainda não foram registrados os pedidos!
-        </div>
+            <div class="ui left floated message">
+                <span class="header">Nada por aqui!</span>
+                Ainda não foram registrados os pedidos!
+            </div>
         {% endif %}
     </div>
 {% endblock %}

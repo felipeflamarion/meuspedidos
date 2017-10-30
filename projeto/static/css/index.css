@@ -7,15 +7,15 @@ body {
     background: url(../imagens/background-index.jpg) repeat center center fixed !important;
 }
 
-.welcome.header{
-    font-family: starwars!important;
+.welcome.header {
+    font-family: starwars !important;
     font-size: 75px !important;
 }
 
-.lipsum{
-    text-align: justify!important;
+.lipsum {
+    text-align: justify !important;
 }
 
-.welcome.header, .welcome .sub.header, .lipsum{
-    color: white!important;
+.welcome.header, .welcome .sub.header, .lipsum {
+    color: white !important;
 }

@@ -54,65 +54,66 @@
                     </h3>
 
                     {% if item.rentabilidade == 2 %}
-                    <h3 class="ui green header">
+                        <h3 class="ui green header">
                     {% elif item.rentabilidade == 1 %}
-                    <h3 class="ui olive header">
+                        <h3 class="ui olive header">
                     {% else %}
-                    <h3 class="ui orange header">
+                        <h3 class="ui orange header">
                     {% endif %}
-                        <i class="percent icon"></i>
-                        <div class="content">
-                            {% if item.rentabilidade == 2 %}
-                                Ótima
-                            {% elif item.rentabilidade == 1 %}
-                                Boa
-                            {% else %}
-                                Ruim
-                            {% endif %}
-                            <div class="sub header">Rentabilidade</div>
-                        </div>
+                    <i class="percent icon"></i>
+                    <div class="content">
+                        {% if item.rentabilidade == 2 %}
+                            Ótima
+                        {% elif item.rentabilidade == 1 %}
+                            Boa
+                        {% else %}
+                            Ruim
+                        {% endif %}
+                        <div class="sub header">Rentabilidade</div>
+                    </div>
                     </h3>
                 </div>
             </div>
             <div class="eight wide column">
                 {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
-                <div class="ui left aligned segment">
-                    <h1 class="ui header">
-                        <div class="content">
-                            Editar
-                            <div class="sub header">Ajuste as informações do item</div>
-                        </div>
-                    </h1>
+                    <div class="ui left aligned segment">
+                        <h1 class="ui header">
+                            <div class="content">
+                                Editar
+                                <div class="sub header">Ajuste as informações do item</div>
+                            </div>
+                        </h1>
 
-                    <div class="ui error quantidade hidden message">
-                        <span class="header">Quantidade inválida</span>
-                        Não respeita o valor múltiplo de venda do produto
-                        <i class="close icon"></i>
+                        <div class="ui error quantidade hidden message">
+                            <span class="header">Quantidade inválida</span>
+                            Não respeita o valor múltiplo de venda do produto
+                            <i class="close icon"></i>
+                        </div>
+
+                        {% if pedido_ativo and form %}
+                            <form method="POST" action="{% url 'editar_item' id_item=item.id %}"
+                                  class="ui big item form">
+                                {% csrf_token %}
+                                <input type="hidden" id="multiplo_de_venda" value="{{ item.produto.multiplo }}"/>
+                                <div class="fields">
+                                    <div class="six wide quantidade field">
+                                        <label>{{ form.quantidade.label }}</label>
+                                        {{ form.quantidade }}
+                                    </div>
+                                    <div class="ten wide field">
+                                        <label>{{ form.preco.label }} em R$</label>
+                                        {{ form.preco }}
+                                    </div>
+                                </div>
+                                <input type="submit" class="ui blue submit fluid button" value="Salvar alterações">
+                            </form>
+                        {% endif %}
                     </div>
-
-                    {% if pedido_ativo and form %}
-                    <form method="POST" action="{% url 'editar_item' id_item=item.id %}" class="ui big item form">
-                        {% csrf_token %}
-                        <input type="hidden" id="multiplo_de_venda" value="{{ item.produto.multiplo }}"/>
-                        <div class="fields">
-                            <div class="six wide quantidade field">
-                                <label>{{ form.quantidade.label }}</label>
-                                {{ form.quantidade }}
-                            </div>
-                            <div class="ten wide field">
-                                <label>{{ form.preco.label }} em R$</label>
-                                {{ form.preco }}
-                            </div>
-                        </div>
-                        <input type="submit" class="ui blue submit fluid button" value="Salvar alterações">
-                    </form>
-                    {% endif %}
-                </div>
                 {% else %}
-                <div class="ui warning message">
-                    <span class="header">Edição desabilitada!</span>
-                    Para realizar alterações no item é preciso estar com o pedido ativo!
-                </div>
+                    <div class="ui warning message">
+                        <span class="header">Edição desabilitada!</span>
+                        Para realizar alterações no item é preciso estar com o pedido ativo!
+                    </div>
                 {% endif %}
 
                 <div class="ui vertical fluid inverted black menu">
@@ -125,10 +126,10 @@
                         Visualizar produto
                     </a>
                     {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
-                    <a class="item excluir" href="{% url 'excluir_item' id_item=item.id %}?destino=pedido">
-                        <i class="remove icon"></i>
-                        Remover item
-                    </a>
+                        <a class="item excluir" href="{% url 'excluir_item' id_item=item.id %}?destino=pedido">
+                            <i class="remove icon"></i>
+                            Remover item
+                        </a>
                     {% endif %}
                 </div>
             </div>
@@ -137,5 +138,5 @@
 {% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="{% static 'js/controle_multiplo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/controle_multiplo.js' %}"></script>
 {% endblock %}

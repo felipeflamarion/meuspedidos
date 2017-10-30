@@ -29,3 +29,8 @@
 .menu .item.excluir:hover{
     background: #c63d3d!important;
 }
+
+.ui.blue.basic.button:hover{
+    background: black!important;
+    color: white!important;
+}

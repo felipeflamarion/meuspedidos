@@ -5,16 +5,19 @@
 {% block content %}
     {% include 'mensagem.html' %}
 
-    <div class="ui  left aligned segment">
+    <div class="ui left aligned segment">
         <h1 class="ui left floated header">
-            Produtos
-            <div class="sub header">
-                Mercadorias à venda
+            <i class="tags icon"></i>
+            <div class="content">
+                Produtos
+                <div class="sub header">
+                    Mercadorias à venda
+                </div>
             </div>
         </h1>
 
         {% if produtos %}
-        <table class="ui striped table">
+        <table class="ui striped relaxed table">
             <thead>
                 <tr>
                     <th>Nome</th>
@@ -28,28 +31,25 @@
                 <tr class="item {% if produto in pedido_ativo.itens.all %}adicionado{% endif %}">
                     <td>
                         <img class="ui avatar image" src="{% static 'imagens/default_product.jpg' %}">
-                        <a href="{% url 'visualizar_produto' id_produto=produto.id %}">{{ produto.nome }}</a>
+                        {{ produto.nome }}
                     </td>
                     <td class="center aligned">R$ {{ produto.preco_unitario }}</td>
-                    <td class="center aligned">
-                    {% if produto.multiplo %}
-                        {{ produto.multiplo }}
-                    {% endif %}
-                    </td>
+                    <td class="center aligned">{{ produto.multiplo }}</td>
                     <td class="right aligned">
-                    {% if pedido_ativo %}
-                        {% if produto not in pedido_ativo.itens.all %}
-                        <a title="Adicionar item" href="{% url 'adicao_rapida' id_produto=produto.id %}" class="ui right labeled icon small compact blue fluid button">
-                            <i class="add to cart icon"></i>
-                            Adicionar
-                        </a>
-                        {% else %}
-                        <a href="{% url 'visualizar_produto' id_produto=produto.id %}" class="ui right labeled icon small compact black fluid button">
-                            <i class="unhide icon"></i>
-                            Visualizar
-                        </a>
-                        {% endif %}
-                    {% endif %}
+                        <div class="ui buttons">
+                            {% if pedido_ativo %}
+                                {% if produto not in pedido_ativo.itens.all %}
+                                <a title="Adicionar item" href="{% url 'adicao_rapida' id_produto=produto.id %}" class="ui blue compact button">
+                                    <i class="add to cart icon"></i>
+                                    Adicionar
+                                </a>
+                                {% endif %}
+                            {% endif %}
+                            <a href="{% url 'visualizar_produto' id_produto=produto.id %}" class="ui blue compact basic button">
+                                <i class="unhide icon"></i>
+                                Visualizar
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

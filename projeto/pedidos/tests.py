@@ -8,7 +8,13 @@ from pedidos.views import *
 from django.core.urlresolvers import reverse
 
 
+''' Testar todas as classes e suas defs '''
+''' Chamadas de páginas (Views) '''
+''' Teste de integração '''
+''' Criar populate pra testar models '''
+
 # Create your tests here.
+
 
 class ProdutoModelTeste(TestCase):
     def teste_multiplo_padrao(self):

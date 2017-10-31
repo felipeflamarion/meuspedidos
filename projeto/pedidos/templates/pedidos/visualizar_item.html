@@ -54,11 +54,11 @@
                     </h3>
 
                     {% if item.rentabilidade == 2 %}
-                        <h3 class="ui green header">
+                        <h3 class="ui teal header">
                     {% elif item.rentabilidade == 1 %}
-                        <h3 class="ui olive header">
+                        <h3 class="ui blue header">
                     {% else %}
-                        <h3 class="ui orange header">
+                        <h3 class="ui red header">
                     {% endif %}
                     <i class="percent icon"></i>
                     <div class="content">
@@ -105,7 +105,7 @@
                                         {{ form.preco }}
                                     </div>
                                 </div>
-                                <input type="submit" class="ui blue submit fluid button" value="Salvar alterações">
+                                <input type="submit" class="ui blue submit fluid big button" value="Salvar Pedido">
                             </form>
                         {% endif %}
                     </div>
@@ -116,22 +116,21 @@
                     </div>
                 {% endif %}
 
-                <div class="ui vertical fluid inverted black menu">
-                    <a class="item" href="{% url 'visualizar_pedido' id_pedido=item.pedido.id %}">
-                        <i class="shop icon"></i>
-                        Visualizar pedido
+{#                <div class="ui vertical fluid inverted teal menu">#}
+                <a class="ui teal button" href="{% url 'visualizar_pedido' id_pedido=item.pedido.id %}">
+                    <i class="shop icon"></i>
+                    Pedido
+                </a>
+                <a class="ui teal button" href="{% url 'visualizar_produto' id_produto=item.produto.id %}">
+                    <i class="tag icon"></i>
+                    Produto
+                </a>
+                {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
+                    <a class="ui red button" href="{% url 'excluir_item' id_item=item.id %}?destino=pedido">
+                        <i class="remove icon"></i>
+                        Remover
                     </a>
-                    <a class="item" href="{% url 'visualizar_produto' id_produto=item.produto.id %}">
-                        <i class="tag icon"></i>
-                        Visualizar produto
-                    </a>
-                    {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
-                        <a class="item excluir" href="{% url 'excluir_item' id_item=item.id %}?destino=pedido">
-                            <i class="remove icon"></i>
-                            Remover item
-                        </a>
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -75,13 +75,13 @@
                         <td class="center aligned">
                             {% if not item.pedido.finalizado and pedido_ativo %}
                                 <div class="ui icon small compact fluid buttons">
-                                    <a href="{% url 'visualizar_item' id_item=item.id %}" class="ui icon black button"
+                                    <a href="{% url 'excluir_item' id_item=item.id %}?destino=pedido"
+                                       class="ui icon red button" title="Excluir">
+                                        <i class="remove icon"></i>
+                                    </a>
+                                    <a href="{% url 'visualizar_item' id_item=item.id %}" class="ui icon blue button"
                                        title="Editar">
                                         <i class="configure icon"></i>
-                                    </a>
-                                    <a href="{% url 'excluir_item' id_item=item.id %}?destino=pedido"
-                                       class="ui icon inverted red button" title="Excluir">
-                                        <i class="remove icon"></i>
                                     </a>
                                 </div>
                             {% endif %}
@@ -96,11 +96,11 @@
                         <td class="disabled center aligned">R$ {{ item.produto.preco_unitario }}</td>
                         <td class="right aligned">
                             {% if item.rentabilidade == 2 %}
-                                <div class="ui green tag label">Ótima</div>
+                                <div class="ui fluid rentabilidade otima label">ÓTIMA</div>
                             {% elif item.rentabilidade == 1 %}
-                                <div class="ui olive tag label">Boa</div>
+                                <div class="ui fluid rentabilidade boa label">BOA</div>
                             {% else %}
-                                <div class="ui orange tag label">Ruim</div>
+                                <div class="ui fluid rentabilidade ruim label">RUIM</div>
                             {% endif %}
                         </td>
                     </tr>
@@ -110,7 +110,7 @@
 
             {% if not pedido.finalizado %}
                 {% if pedido == pedido_ativo %}
-                    <a class="ui compact labeled icon bottom attached black button" href="{% url 'lista_produtos' %}">
+                    <a class="ui bottom attached big button" href="{% url 'lista_produtos' %}">
                         <i class="add to cart icon"></i>
                         Adicionar mais produtos
                     </a>
@@ -137,7 +137,7 @@
 
     {% if pedido == pedido_ativo %}
         <div class="ui two bottom attached big buttons">
-            <a href="{% url 'cancelar_pedido' %}" class="ui labeled icon inverted red button">
+            <a href="{% url 'cancelar_pedido' %}" class="ui labeled icon red button">
                 <i class="remove icon"></i>
                 Cancelar Pedido
             </a>

@@ -16,8 +16,8 @@
             </div>
         </h1>
         {% if not pedido_ativo %}
-            <a class="ui labeled icon blue fluid button" href="{% url 'novo_pedido' %}">
-                <i class="shop icon"></i>
+            <a class="ui labeled icon blue button" href="{% url 'novo_pedido' %}">
+                <i class="plus icon"></i>
                 Novo pedido
             </a>
         {% endif %}
@@ -51,8 +51,12 @@
                         </span>
                             {% endif %}
                         </td>
-                        <td class="center aligned">
-                            <a href="{% url 'visualizar_pedido' id_pedido=pedido.id %}">Ver mais</a>
+                        <td class="right aligned">
+                            <a href="{% url 'visualizar_pedido' id_pedido=pedido.id %}"
+                               class="ui teal compact button">
+                                <i class="unhide icon"></i>
+                                Visualizar
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

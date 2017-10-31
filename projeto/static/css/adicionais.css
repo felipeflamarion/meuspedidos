@@ -3,15 +3,11 @@
 }
 
 .pedido.situacao.aberto {
-    color: orange !important;
+    color: #d72b28 !important;
 }
 
 .pedido.situacao.finalizado {
-    color: forestgreen !important;
-}
-
-.item.adicionado {
-    background: #dce5e8 !important;
+    color: #2c82cd !important;
 }
 
 .descricao {
@@ -22,15 +18,18 @@
     font-size: 40px !important;
 }
 
-.menu .item.excluir {
-    background: #b72a2a !important;
+.ui.rentabilidade.label {
+    color: #fff!important;
 }
 
-.menu .item.excluir:hover {
-    background: #c63d3d !important;
+.ui.rentabilidade.otima.label {
+    background: #23b4ac!important;
 }
 
-.ui.blue.basic.button:hover {
-    background: black !important;
-    color: white !important;
+.ui.rentabilidade.boa.label {
+    background: #2c82cd!important;
+}
+
+.ui.rentabilidade.ruim.label {
+    background: #d72b28!important;
 }

@@ -1,13 +1,11 @@
 {% if pedido_ativo and pedido_ativo != pedido %}
     <div class="ui row">
         <div class="ten wide column">
-            <div class="ui blue right aligned segment">
-                <div class="ui left floated left aligned header">
+            <div class="ui right aligned segment">
+                <div class="ui left floated left aligned blue header">
                     <i class="shop icon"></i>
                     <div class="content">
-                        <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">
-                            Pedido em andamento
-                        </a>
+                        Pedido em andamento
                         <div class="sub header">
                             De <strong>{{ pedido_ativo.cliente.nome }} {{ pedido_ativo.cliente.sobrenome }}</strong>,
                             iniciado em <strong>{{ pedido_ativo.data|date:'d/m/Y - H:i' }}</strong>

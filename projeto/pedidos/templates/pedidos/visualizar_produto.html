@@ -73,14 +73,13 @@
                                             {{ form.preco }}
                                         </div>
                                     </div>
-                                    <input type="submit" class="ui blue submit fluid button"
+                                    <input type="submit" class="ui blue submit fluid big button"
                                            value="Adicionar ao pedido">
                                 </form>
                             </div>
                         {% else %}
-                            <div class="ui left aligned segment">
-                                <div class="ui blue header">
-                                    <i class="check icon"></i>
+                            <div class="ui center aligned segment">
+                                <div class="ui blue centered header">
                                     <div class="content">
                                         Adicionado ao Pedido
                                         <div class="sub header">
@@ -89,19 +88,17 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="ui two buttons">
-                                    <a href="{% url 'excluir_item' id_item=item.id %}"
-                                       class="ui labeled icon inverted red button" title="Excluir">
-                                        <i class="remove icon"></i>
-                                        Remover
-                                    </a>
-                                    <a href="{% url 'visualizar_item' id_item=item.id %}"
-                                       class="ui right labeled icon icon blue button" title="Editar">
-                                        <i class="configure icon"></i>
-                                        Editar
-                                    </a>
-                                </div>
+                                <div class="ui divider"></div>
+                                <a href="{% url 'excluir_item' id_item=item.id %}"
+                                   class="ui red button" title="Excluir">
+                                    <i class="remove icon"></i>
+                                    Remover
+                                </a>
+                                <a href="{% url 'visualizar_item' id_item=item.id %}"
+                                   class="ui icon blue button" title="Editar">
+                                    <i class="configure icon"></i>
+                                    Editar Item
+                                </a>
                             </div>
                         {% endif %}
                     {% endif %}

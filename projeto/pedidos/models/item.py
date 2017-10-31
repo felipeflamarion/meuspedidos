@@ -17,6 +17,12 @@ class ItemModel(models.Model):
         else:
             return 1
 
+    def get_or_none(id):
+        try:
+            return ItemModel.objects.get(pk=id)
+        except:
+            return None
+
     def __str__(self):
         return '(%s) %s' % (self.quantidade, self.produto.nome)
 

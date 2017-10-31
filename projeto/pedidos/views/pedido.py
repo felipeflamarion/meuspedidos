@@ -5,10 +5,10 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 from pedidos.forms import PedidoForm
 from pedidos.models import PedidoModel, ItemModel
-from pedidos.views.functions import SessaoPedido
+from pedidos.views.functions import SessaoPedido, get_mensagem
+
 
 class PedidoView(View):
-
     def get(self, request):
         context_dict = {}
         context_dict['form'] = PedidoForm()
@@ -19,14 +19,11 @@ class PedidoView(View):
         context_dict = {}
         form = PedidoForm(data=request.POST)
         pedido_ativo = SessaoPedido(request=request)
-
         if form.is_valid():
             pedido_novo = form.save()
-            if pedido_ativo.existe():
-                pedido_ativo.excluir()
             pedido_ativo.iniciar(pedido_novo.id)
-            return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido_novo.id}) + '?criado=True')
-
+            return HttpResponseRedirect(
+                urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido_novo.id}) + '?criado=True')
         context_dict['mensagem'] = {'codigo': False, 'texto': 'Não foi possível registrar o pedido!'}
         context_dict['pedido_ativo'] = pedido_ativo.get_objeto_pedido()
         context_dict['form'] = form
@@ -34,17 +31,16 @@ class PedidoView(View):
 
     @classmethod
     def Continuar(self, request, id_pedido):
-        try:
-            pedido = PedidoModel.objects.get(pk=id_pedido)
-        except PedidoModel.DoesNotExist:
-            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s não existe!' %id_pedido)
-        pedido_ativo = SessaoPedido(request=request)
-        if pedido_ativo.existe():
-            pedido_ativo.excluir()
-        pedido_ativo.iniciar(pedido.id)
-        pedido.finalizado = False
-        pedido.save()
-        return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?reaberto=True')
+        pedido = PedidoModel.get_or_none(id=id_pedido)
+        if pedido:
+            pedido_ativo = SessaoPedido(request=request)
+            pedido_ativo.iniciar(pedido.id)
+            pedido.finalizado = False
+            pedido.save()
+            return HttpResponseRedirect(
+                urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?reaberto=True')
+        else:
+            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s não existe!' % id_pedido)
 
     @classmethod
     def Listar(self, request):
@@ -52,8 +48,7 @@ class PedidoView(View):
         pedidos = PedidoModel.objects.all().order_by('-data')
         context_dict['pedidos'] = pedidos
         context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
-        if request.GET.get('cancelado') == 'True':
-            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido cancelado!'}
+        context_dict['mensagem'] = self.get_pedido_mensagem(request=request)
         return render(request, 'pedidos/lista_pedidos.html', context_dict)
 
     @classmethod
@@ -74,51 +69,56 @@ class PedidoView(View):
         context_dict = {}
         pedido_atual = SessaoPedido(request=request)
         pedido = pedido_atual.get_objeto_pedido()
-
         if pedido:
-            if len(pedido.itens.all()) > 0:
+            if pedido.itens.all().count() > 0:
                 pedido.finalizado = True
                 pedido.save()
                 pedido_atual.excluir()
-                return HttpResponseRedirect(urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?finalizado=True')
+                return HttpResponseRedirect(
+                    urlresolvers.reverse('visualizar_pedido', kwargs={'id_pedido': pedido.id}) + '?finalizado=True')
             else:
-                mensagem = {'codigo': False, 'texto': 'Um pedido deve conter pelo menos 1 item!'}
-        else:
-            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s inválido!')
+                mensagem = get_mensagem(view='pedido', mensagem='sem_itens')
 
-        itens = ItemModel.objects.filter(pedido=pedido)
-        context_dict['pedido'] = pedido
-        context_dict['pedido_ativo'] = pedido
-        context_dict['itens'] = itens
-        context_dict['mensagem'] = mensagem
-        return render(request, 'pedidos/visualizar_pedido.html', context_dict)
+            itens = ItemModel.objects.filter(pedido=pedido)
+            context_dict['pedido'] = pedido
+            context_dict['pedido_ativo'] = pedido
+            context_dict['itens'] = itens
+            context_dict['mensagem'] = mensagem
+            return render(request, 'pedidos/visualizar_pedido.html', context_dict)
+        else:
+            return HttpResponseNotFound('<h1>404</h1><p>Pedido inexistente!')
 
     @classmethod
     def Visualizar(self, request, id_pedido):
         context_dict = {}
-        try:
-            pedido = PedidoModel.objects.get(pk=id_pedido)
-        except PedidoModel.DoesNotExist:
-            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s não existe!' %id_pedido)
-        itens = ItemModel.objects.filter(pedido=pedido)
-        context_dict['pedido'] = pedido
-        context_dict['itens'] = itens
-        context_dict['valor_total'] = self.valor_total(itens)
-        context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
+        pedido = PedidoModel.get_or_none(id=id_pedido)
+        if pedido:
+            itens = ItemModel.objects.filter(pedido=pedido)
+            context_dict['pedido'] = pedido
+            context_dict['itens'] = itens
+            context_dict['pedido_ativo'] = SessaoPedido(request=request).get_objeto_pedido()
+            context_dict['valor_total'] = self.get_valor_total_pedido(itens)
+            context_dict['mensagem'] = self.get_pedido_mensagem(request)
+            return render(request, 'pedidos/visualizar_pedido.html', context_dict)
+        else:
+            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s não existe!' % id_pedido)
 
-        if request.GET.get('criado') == 'True':
-            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido criado!'}
-        elif request.GET.get('reaberto') == 'True':
-            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido reaberto!'}
-        elif request.GET.get('finalizado') == 'True':
-            context_dict['mensagem'] = {'codigo': True, 'texto': 'Pedido finalizado!'}
-        elif request.GET.get('removido') == 'True':
-            context_dict['mensagem'] = {'codigo': True, 'texto': 'Item removido do pedido!'}
-        return render(request, 'pedidos/visualizar_pedido.html', context_dict)
-
-    def valor_total(itens):
+    def get_valor_total_pedido(itens):
         total = 0
         for item in itens:
             total += item.preco * item.quantidade
         return total
 
+    def get_pedido_mensagem(request):
+        if request.GET.get('criado') == 'True':
+            return {'codigo': True, 'texto': 'Pedido criado!'}
+        elif request.GET.get('reaberto') == 'True':
+            return {'codigo': True, 'texto': 'Pedido reaberto!'}
+        elif request.GET.get('finalizado') == 'True':
+            return {'codigo': True, 'texto': 'Pedido finalizado!'}
+        elif request.GET.get('removido') == 'True':
+            return {'codigo': True, 'texto': 'Item removido do pedido!'}
+        elif request.GET.get('cancelado') == 'True':
+            return {'codigo': True, 'texto': 'Pedido cancelado!'}
+        else:
+            return None

@@ -60,8 +60,11 @@ class PedidoView(View):
     def Cancelar(self, request):
         pedido_ativo = SessaoPedido(request=request)
         pedido = pedido_ativo.get_objeto_pedido()
-        for item in ItemModel.objects.filter(pedido=pedido):
-            item.delete()
+        if pedido:
+            for item in ItemModel.objects.filter(pedido=pedido):
+                item.delete()
+        else:
+            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s inválido!')
         pedido_ativo.get_objeto_pedido().delete()
         pedido_ativo.excluir()
         return HttpResponseRedirect(urlresolvers.reverse('lista_pedidos') + '?cancelado=True')
@@ -81,7 +84,7 @@ class PedidoView(View):
             else:
                 mensagem = {'codigo': False, 'texto': 'Um pedido deve conter pelo menos 1 item!'}
         else:
-            mensagem = {'codigo': False, 'texto': 'Pedido inválido! Não foi possível finalizar!'}
+            return HttpResponseNotFound('<h1>404</h1><p>Pedido %s inválido!')
 
         itens = ItemModel.objects.filter(pedido=pedido)
         context_dict['pedido'] = pedido

@@ -159,19 +159,65 @@ class PedidoViewTeste(TestCase):
 
 
 class ProdutoViewTeste(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
     def teste_visualizar_produto(self):
-        pass
+        produto = ProdutoModel(nome='Capacete Stormtrooper', preco_unitario=Decimal.from_float(1000.00))
+        produto.save()
+
+        ''' Visualizar produto com ID inválido '''
+        response = self.client.get(reverse('visualizar_produto', kwargs={'id_produto': produto.id}))
+        self.assertEqual(response.status_code, 200)
+        ''' Visualizar produto com ID inválido '''
+        response = self.client.get(reverse('visualizar_produto', kwargs={'id_produto': 1000}))
+        self.assertEqual(response.status_code, 404)
 
     def teste_listar_produto(self):
-        pass
+        response = self.client.get(reverse('lista_produtos'))
+        self.assertEqual(response.status_code, 200)
 
     def teste_adicao_rapida_produto(self):
-        pass
+        cliente = ClienteModel(nome='Lando', sobrenome='Calrissian')
+        cliente.save()
+        pedido = PedidoModel(cliente=cliente)
+        pedido.save()
+        produto = ProdutoModel(nome='Capacete Stormtrooper', preco_unitario=Decimal.from_float(1000.00))
+        produto.save()
+        request = self.factory.get(reverse('index'))
+
+        request.session = {}
+        ''' Sem sessão ativa '''
+        response = ProdutoView.AdicaoRapida(request=request, id_produto=produto.id)
+        self.assertEqual(response.status_code, 200)
+
+        request.session['pedido'] = pedido.id
+        ''' Com sessão ativa e produto inválido '''
+        response = ProdutoView.AdicaoRapida(request=request, id_produto=1000)
+        self.assertEqual(response.status_code, 404)
+
+        ''' Com sessão ativa e produto válido '''
+        response = ProdutoView.AdicaoRapida(request=request, id_produto=produto.id)
+        self.assertEqual(response.status_code, 302)
 
 
 class ItemViewTeste(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
     def teste_novo_item(self):
-        pass
+        cliente = ClienteModel(nome='Lando', sobrenome='Calrissian')
+        cliente.save()
+        pedido = PedidoModel(cliente=cliente)
+        pedido.save()
+        produto = ProdutoModel(nome='Blue Milk', preco_unitario=Decimal.from_float(10.00), multiplo=5)
+        produto.save()
+
+        ''' Sem pedido ativo '''
+        request = self.factory.get(reverse('index'))
+        request.session = {}
+        response = self.client.post(reverse('novo_item'), {'produto': produto.id, 'preco': Decimal.from_float(12.00), 'multiplo': 5})
+        self.assertEqual(response.status_code, 200)
 
     def teste_editar_item(self):
         pass
@@ -180,4 +226,19 @@ class ItemViewTeste(TestCase):
         pass
 
     def teste_excluir(self):
-        pass
+        cliente = ClienteModel(nome='Lando', sobrenome='Calrissian')
+        cliente.save()
+        pedido = PedidoModel(cliente=cliente)
+        pedido.save()
+        produto = ProdutoModel(nome='Blue Milk', preco_unitario=Decimal.from_float(10.00), multiplo=5)
+        produto.save()
+        item = ItemModel(pedido=pedido, produto=produto, quantidade=produto.multiplo, preco=produto.preco_unitario)
+        item.save()
+        request = self.factory.get(reverse('index'))
+
+        ''' Exclusão de item com ID válido '''
+        response = ItemView.Excluir(request=request, id_item=item.id)
+        self.assertEqual(response.status_code, 302)
+        ''' Exclusão de item com ID inválido '''
+        response = ItemView.Excluir(request=request, id_item=1000)
+        self.assertEqual(response.status_code, 404)

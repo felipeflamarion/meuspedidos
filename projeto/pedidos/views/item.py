@@ -13,10 +13,11 @@ class ItemView(View):
     def post(self, request):
         context_dict = {}
         form = ItemForm(data=request.POST)
+        print(request.POST.get('produto'))
         try:
             produto = ProdutoModel.objects.get(pk=request.POST.get('produto'))
         except ProdutoModel.DoesNotExist:
-            return HttpResponseRedirect('<h1>404</h1><p>Produto %s não existe!' % request.POST.get('produto'))
+            return HttpResponseNotFound('<h1>404</h1><p>Produto %s não existe!' % request.POST.get('produto'))
 
         pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
 

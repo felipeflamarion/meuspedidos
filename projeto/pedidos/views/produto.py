@@ -7,15 +7,15 @@ from pedidos.models import ProdutoModel, ItemModel
 from pedidos.views.functions import SessaoPedido
 from pedidos.forms import ItemForm
 
-class ProdutoView(View):
 
+class ProdutoView(View):
     @classmethod
     def Visualizar(self, request, id_produto=None):
         context_dict = {}
         try:
             produto = ProdutoModel.objects.get(pk=id_produto)
         except ProdutoModel.DoesNotExist:
-            return HttpResponseNotFound('<h1>404</h1><p>Produto %s não existe!' %id_produto)
+            return HttpResponseNotFound('<h1>404</h1><p>Produto %s não existe!' % id_produto)
         pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
 
         context_dict['produto'] = produto
@@ -50,9 +50,9 @@ class ProdutoView(View):
         try:
             produto = ProdutoModel.objects.get(pk=id_produto)
         except ProdutoModel.DoesNotExist:
-            return HttpResponseNotFound('<h1>404</h1><p>Produto %s não existe!' %id_produto)
-        pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
+            return HttpResponseNotFound('<h1>404</h1><p>Produto %s não existe!' % id_produto)
 
+        pedido_ativo = SessaoPedido(request=request).get_objeto_pedido()
         if produto and pedido_ativo:
             if produto in pedido_ativo.itens.all():
                 item = ItemModel.objects.get(produto=produto, pedido=pedido_ativo)

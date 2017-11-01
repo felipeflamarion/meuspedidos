@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse
+from decimal import Decimal
 from django.test import TestCase
-from pedidos.tests.funcoes_auxiliares import *
+from pedidos.tests.funcoes_auxiliares import get_sessao_pedido_generica, populate_base_de_testes
 from pedidos.views import ItemView
+from pedidos.models import PedidoModel
 
 
 class ItemViewTeste(TestCase):

@@ -5,8 +5,8 @@
 {% block content %}
     {% include 'mensagem.html' %}
 
-    <section class="ui left aligned segment">
-        <h1 class="ui left floated header">
+    <section class="ui segment">
+        <h1 class="ui header">
             <i class="tags icon"></i>
             <div class="content">
                 Produtos
@@ -15,7 +15,6 @@
                 </span>
             </div>
         </h1>
-
         {% if produtos %}
             <table class="ui striped relaxed table">
                 <thead>
@@ -57,6 +56,11 @@
                 {% endfor %}
                 </tbody>
             </table>
+        {% else %}
+            <article class="ui left floated message">
+                <span class="header">Nada por aqui!</span>
+                Ainda não foram registrados os produtos!
+            </article>
         {% endif %}
     </section>
 {% endblock %}

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.test import TestCase
-from pedidos.tests.funcoes_auxiliares import *
-from pedidos.views import PedidoView, ProdutoView
+from django.core.urlresolvers import reverse
+from django.test import TestCase, RequestFactory
+from pedidos.tests.funcoes_auxiliares import get_sessao_pedido_generica, populate_base_de_testes
+from pedidos.views import ProdutoView
 
 
 class ProdutoViewTeste(TestCase):

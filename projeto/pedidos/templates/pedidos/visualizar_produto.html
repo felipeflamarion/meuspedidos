@@ -13,51 +13,51 @@
     {% include 'mensagem.html' %}
 
     {% if produto %}
-        <div class="ui grid">
-            <div class="row">
-                <div class="eight wide column">
-                    <div class="ui fluid card">
-                        <div class="image"><img src="{% static 'imagens/default_product.jpg' %}"/></div>
-                    </div>
-                </div>
-                <div class="eight wide column">
-                    <div class="ui left aligned segment">
-                        <div class="ui fluid list">
+        <section class="ui grid">
+            <section class="row">
+                <section class="eight wide column">
+                    <section class="ui fluid card">
+                        <section class="image"><img src="{% static 'imagens/default_product.jpg' %}"/></section>
+                    </section>
+                </section>
+                <section class="eight wide column">
+                    <section class="ui left aligned segment">
+                        <section class="ui fluid list">
                             <div class="item">
-                                <div class="ui dividing header">Produto</div>
+                                <label class="ui dividing header">Produto</label>
                                 <h1 class="ui header">
                                     {{ produto.nome }}
                                 </h1>
                             </div>
                             <div class="item">
-                                <div class="ui dividing tiny header">Descrição</div>
-                                <div class="descricao">
+                                <label class="ui dividing tiny header">Descrição</label>
+                                <section class="descricao">
                                     Lucas ipsum dolor sit amet kamino darth dantooine yavin luuke coruscant
                                     owen antilles hutt antilles. Moff darth skywalker darth jinn greedo cade.
-                                </div>
+                                </section>
                             </div>
                             <div class="item">
-                                <div class="ui dividing tiny header">Múltiplo de Venda</div>
-                                <div class="descricao">
+                                <label class="ui dividing tiny header">Múltiplo de Venda</label>
+                                <section class="descricao">
                                     {{ produto.multiplo }} unidade(s)
-                                </div>
+                                </section>
                             </div>
                             <div class="item">
-                                <div class="ui dividing tiny header">Preço unitário</div>
+                                <label class="ui dividing tiny header">Preço unitário</label>
                                 <h1 class="ui preco header">
                                     R$ {{ produto.preco_unitario }}
                                 </h1>
                             </div>
-                        </div>
-                    </div>
+                        </section>
+                    </section>
                     {% if pedido_ativo and form %}
                         {% if produto not in pedido_ativo.itens.all %}
-                            <div class="ui left aligned blue segment">
-                                <div class="ui error quantidade hidden message">
+                            <article class="ui left aligned blue segment">
+                                <article class="ui error quantidade hidden message">
                                     <span class="header">Quantidade inválida</span>
                                     Não respeita o valor múltiplo de venda do produto: {{ produto.multiplo }}.
                                     <i class="close icon"></i>
-                                </div>
+                                </article>
 
                                 <form method="POST" action="{% url 'novo_item' %}" class="ui big item form">
                                     {% csrf_token %}
@@ -76,18 +76,18 @@
                                     <input type="submit" class="ui blue submit fluid big button"
                                            value="Adicionar ao pedido">
                                 </form>
-                            </div>
+                            </article>
                         {% else %}
-                            <div class="ui center aligned segment">
-                                <div class="ui blue centered header">
-                                    <div class="content">
+                            <section class="ui center aligned segment">
+                                <article class="ui blue centered header">
+                                    <section class="content">
                                         Adicionado ao Pedido
-                                        <div class="sub header">
+                                        <section class="sub header">
                                             <a href="{% url 'visualizar_pedido' id_pedido=pedido_ativo.id %}">Ver
                                                 pedido</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </section>
+                                    </section>
+                                </article>
                                 <div class="ui divider"></div>
                                 <a href="{% url 'excluir_item' id_item=item.id %}"
                                    class="ui red button" title="Excluir">
@@ -99,12 +99,12 @@
                                     <i class="configure icon"></i>
                                     Editar Item
                                 </a>
-                            </div>
+                            </section>
                         {% endif %}
                     {% endif %}
-                </div>
-            </div>
-        </div>
+                </section>
+            </section>
+        </section>
     {% endif %}
 {% endblock %}
 

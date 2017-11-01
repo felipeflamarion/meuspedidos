@@ -3,13 +3,13 @@
 {% block title %}Novo Pedido{% endblock %}
 
 {% block content %}
-    <div class="ui center aligned segment">
+    <section class="ui center aligned segment">
         <h1 class="ui centered header">
             <div class="content">
                 Novo pedido
-                <div class="sub header">
+                <span class="sub header">
                     Selecione o cliente para iniciar
-                </div>
+                </span>
             </div>
         </h1>
 
@@ -21,11 +21,11 @@
 
         <form method="POST" action="." class="ui big form">
             {% csrf_token %}
-            <div class="field">
+            <section class="field">
                 <label>{{ form.cliente.label }}</label>
                 {{ form.cliente }}
-            </div>
+            </section>
             <input type="submit" class="ui fluid blue submit big button" value="Continuar">
         </form>
-    </div>
+    </section>
 {% endblock %}

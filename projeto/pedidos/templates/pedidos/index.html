@@ -10,13 +10,13 @@
     {% include 'mensagem.html' %}
     <h1 class="ui centered welcome header">
         Meus Pedidos
-        <div class="sub header">
+        <span class="sub header">
             Sistema de Pedidos mais utilizado em Tatooine
-        </div>
+        </span>
     </h1>
 
-    <div class="ui centered grid">
-        <div class="eight wide column">
+    <section class="ui centered grid">
+        <section class="eight wide column">
             {% if not pedido_ativo %}
                 <a href="{% url 'novo_pedido' %}" class="ui blue big fluid button">
                     <i class="shop icon"></i>
@@ -49,6 +49,6 @@
                 darth fett moff palpatine fett. Hutt windu coruscant hutt hoth dooku. Organa
                 chewbacca darth luke mustafar boba jar skywalker owen.
             </p>
-        </div>
-    </div>
+        </section>
+    </section>
 {% endblock %}

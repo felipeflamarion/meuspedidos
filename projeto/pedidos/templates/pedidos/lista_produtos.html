@@ -5,14 +5,14 @@
 {% block content %}
     {% include 'mensagem.html' %}
 
-    <div class="ui left aligned segment">
+    <section class="ui left aligned segment">
         <h1 class="ui left floated header">
             <i class="tags icon"></i>
             <div class="content">
                 Produtos
-                <div class="sub header">
+                <span class="sub header">
                     Mercadorias à venda
-                </div>
+                </span>
             </div>
         </h1>
 
@@ -36,7 +36,7 @@
                         <td class="center aligned">R$ {{ produto.preco_unitario }}</td>
                         <td class="center aligned">{{ produto.multiplo }}</td>
                         <td class="right aligned">
-                            <div class="ui buttons">
+                            <nav class="ui buttons">
                                 {% if pedido_ativo %}
                                     {% if produto not in pedido_ativo.itens.all %}
                                         <a title="Adicionar item" href="{% url 'adicao_rapida' id_produto=produto.id %}"
@@ -51,12 +51,12 @@
                                     <i class="unhide icon"></i>
                                     Visualizar
                                 </a>
-                            </div>
+                            </nav>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         {% endif %}
-    </div>
+    </section>
 {% endblock %}

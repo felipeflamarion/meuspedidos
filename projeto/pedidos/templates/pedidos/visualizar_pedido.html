@@ -6,7 +6,7 @@
 
     {% include 'mensagem.html' %}
 
-    <div class="ui attached segment">
+    <section class="ui attached segment">
         <h1 class="ui header">
             <i class="shop icon"></i>
             <div class="content">
@@ -21,7 +21,7 @@
                         <i class="user icon"></i>
                         <div class="content">
                             {{ pedido.cliente.nome }} {{ pedido.cliente.sobrenome }}
-                            <div class="sub header">Cliente</div>
+                            <span class="sub header">Cliente</span>
                         </div>
                     </h4>
                 </td>
@@ -30,7 +30,7 @@
                         <i class="calendar icon"></i>
                         <div class="content">
                             {{ pedido.data|date:"j/n/Y" }} às {{ pedido.data|date:"H:i" }}
-                            <div class="sub header">Data e Hora</div>
+                            <span class="sub header">Data e Hora</span>
                         </div>
                     </h4>
                 </td>
@@ -40,16 +40,16 @@
                             <i class="lock icon"></i>
                             <div class="content">
                                 Fechado
-                                <div class="sub header">Pedido</div>
+                                <span class="sub header">Pedido</span>
                             </div>
                         </h4>
                     {% else %}
                         <h4 class="ui situacao aberto pedido header">
                             <i class="unlock alternate icon"></i>
-                            <div class="content">
+                            <span class="content">
                                 Aberto
                                 <div class="sub header">Pedido</div>
-                            </div>
+                            </span>
                         </h4>
                     {% endif %}
                 </td>
@@ -57,7 +57,7 @@
         </table>
 
         {% if itens|length > 0 %}
-            <div class="ui dividing header">Produtos</div>
+            <h2 class="ui dividing header">Produtos</h2>
             <table class="ui attached definition table">
                 <thead>
                 <tr>
@@ -74,7 +74,7 @@
                     <tr>
                         <td class="center aligned">
                             {% if not item.pedido.finalizado and pedido_ativo %}
-                                <div class="ui icon small compact fluid buttons">
+                                <nav class="ui icon small compact fluid buttons">
                                     <a href="{% url 'excluir_item' id_item=item.id %}?destino=pedido"
                                        class="ui icon red button" title="Excluir">
                                         <i class="remove icon"></i>
@@ -83,7 +83,7 @@
                                        title="Editar">
                                         <i class="configure icon"></i>
                                     </a>
-                                </div>
+                                </nav>
                             {% endif %}
                         </td>
                         <td>
@@ -96,11 +96,11 @@
                         <td class="disabled center aligned">R$ {{ item.produto.preco_unitario }}</td>
                         <td class="right aligned">
                             {% if item.rentabilidade == 2 %}
-                                <div class="ui fluid rentabilidade otima label">ÓTIMA</div>
+                                <span class="ui fluid rentabilidade otima label">ÓTIMA</span>
                             {% elif item.rentabilidade == 1 %}
-                                <div class="ui fluid rentabilidade boa label">BOA</div>
+                                <span class="ui fluid rentabilidade boa label">BOA</span>
                             {% else %}
-                                <div class="ui fluid rentabilidade ruim label">RUIM</div>
+                                <span class="ui fluid rentabilidade ruim label">RUIM</span>
                             {% endif %}
                         </td>
                     </tr>
@@ -117,10 +117,10 @@
                 {% endif %}
             {% endif %}
         {% else %}
-            <div class="ui warning message">
+            <article class="ui warning message">
                 <span class="header">Ainda não possui itens!</span>
                 Um pedido não pode ser finalizado sem itens!
-            </div>
+            </article>
         {% endif %}
 
         {% if valor_total %}
@@ -133,7 +133,7 @@
                 </div>
             </h1>
         {% endif %}
-    </div>
+    </section>
 
     {% if pedido == pedido_ativo %}
         <div class="ui two bottom attached big buttons">

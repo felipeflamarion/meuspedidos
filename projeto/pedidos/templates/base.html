@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <title>Meus Pedidos - {% block title %}{% endblock %}</title>
 
-    <link type="text/css" rel="stylesheet" href="{% static 'semantic/semantic.css' %}" />
-    <link type="text/css" rel="stylesheet" href="{% static 'css/adicionais.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'semantic/semantic.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/adicionais.css' %}"/>
     {% block extracss %}{% endblock %}
 </head>
 <body>
 
-<div class="ui centered left aligned grid">
+<section class="ui centered left aligned grid">
     <div class="ui blue top row"></div>
 
     {% include 'menu.html' %}
 
     {% include 'pedido_ativo_popup.html' %}
 
-    <div class="ui row">
-        <div class="ten wide column">
-        {% block content %}{% endblock %}
-        </div>
-    </div>
-</div>
+    <section class="ui row">
+        <section class="ten wide column">
+            {% block content %}{% endblock %}
+        </section>
+    </section>
+</section>
 </body>
 
 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>

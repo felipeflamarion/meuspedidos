@@ -5,14 +5,14 @@
 {% block content %}
     {% include 'mensagem.html' %}
 
-    <div class="ui segment">
+    <section class="ui segment">
         <h1 class="ui header">
             <i class="clone icon"></i>
             <div class="content">
                 Lista de Pedidos
-                <div class="sub header">
+                <span class="sub header">
                     Relação dos pedidos realizados
-                </div>
+                </span>
             </div>
         </h1>
         {% if not pedido_ativo %}
@@ -41,14 +41,14 @@
                         <td class="center aligned">
                             {% if pedido.finalizado %}
                                 <span class="situacao finalizado pedido">
-                            <i class="lock icon"></i>
-                            Finalizado
-                        </span>
+                                    <i class="lock icon"></i>
+                                    Finalizado
+                                </span>
                             {% else %}
                                 <span class="situacao aberto pedido">
-                            <i class="unlock alternate icon"></i>
-                            Em aberto
-                        </span>
+                                    <i class="unlock alternate icon"></i>
+                                    Em aberto
+                                </span>
                             {% endif %}
                         </td>
                         <td class="right aligned">
@@ -63,10 +63,10 @@
                 </tbody>
             </table>
         {% else %}
-            <div class="ui left floated message">
+            <article class="ui left floated message">
                 <span class="header">Nada por aqui!</span>
                 Ainda não foram registrados os pedidos!
-            </div>
+            </article>
         {% endif %}
-    </div>
+    </section>
 {% endblock %}

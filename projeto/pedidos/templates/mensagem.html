@@ -1,27 +1,27 @@
 {% if mensagem %}
     {% if mensagem.codigo %}
-        <div class="ui left aligned success message">
-            <span class="header">Sucesso!</span>
+        <article class="ui left aligned success message">
+        <span class="header">Sucesso!</span>
     {% else %}
-        <div class="ui left aligned error message">
-            <span class="header">Falhou!</span>
+        <article class="ui left aligned error message">
+        <span class="header">Falhou!</span>
     {% endif %}
-            <i class="close icon"></i>
-            <ul class="list">
-                {% if form.errors %}
-                    {% for field in form %}
-                        {% if field.errors %}
-                            {% for error in field.errors %}
-                                <li>
-                                    <strong>{{ field.label_tag }}</strong>
-                                    {{ error }}
-                                </li>
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    <li>{{ mensagem.texto }}</li>
-                {% endif %}
-            </ul>
-        </div>
+        <i class="close icon"></i>
+        <ul class="list">
+            {% if form.errors %}
+                {% for field in form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <li>
+                                <strong>{{ field.label_tag }}</strong>
+                                {{ error }}
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <li>{{ mensagem.texto }}</li>
+            {% endif %}
+        </ul>
+        </article>
 {% endif %}

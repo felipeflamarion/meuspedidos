@@ -5,14 +5,14 @@
 {% block content %}
     {% include 'mensagem.html' %}
 
-    <div class="ui grid">
-        <div class="row">
-            <div class="eight wide column">
-                <div class="ui left aligned segment">
+    <section class="ui grid">
+        <section class="row">
+            <section class="eight wide column">
+                <section class="ui left aligned segment">
                     <h1 class="ui header">
                         <div class="content">
                             Detalhes
-                            <div class="sub header">informações sobre o item</div>
+                            <span class="sub header">informações sobre o item</span>
                         </div>
                     </h1>
 
@@ -20,9 +20,7 @@
                         <i class="tag icon"></i>
                         <div class="content">
                             {{ item.produto.nome }}
-                            <div class="sub header">
-                                Produto
-                            </div>
+                            <span class="sub header">Produto</span>
                         </div>
                     </h3>
 
@@ -31,9 +29,7 @@
                         <div class="content">
                             {{ item.pedido.cliente.nome }} {{ item.pedido.cliente.sobrenome }}
                             em {{ item.pedido.data|date:"d/m/Y" }}
-                            <div class="sub header">
-                                Pedido
-                            </div>
+                            <span class="sub header">Pedido</span>
                         </div>
                     </h3>
 
@@ -41,7 +37,7 @@
                         <i class="list layout icon"></i>
                         <div class="content">
                             {{ item.quantidade }} unidade(s)
-                            <div class="sub header">Quantidade</div>
+                            <span class="sub header">Quantidade</span>
                         </div>
                     </h3>
 
@@ -69,27 +65,27 @@
                         {% else %}
                             Ruim
                         {% endif %}
-                        <div class="sub header">Rentabilidade</div>
+                        <span class="sub header">Rentabilidade</span>
                     </div>
                     </h3>
-                </div>
-            </div>
-            <div class="eight wide column">
+                </section>
+            </section>
+            <section class="eight wide column">
                 {% if not item.pedido.finalizado and pedido_ativo == item.pedido %}
-                    <div class="ui left aligned segment">
+                    <section class="ui left aligned segment">
                         <h1 class="ui header">
                             <div class="content">
                                 Editar
-                                <div class="sub header">Ajuste as informações do item</div>
+                                <span class="sub header">Ajuste as informações do item</span>
                             </div>
                         </h1>
 
                         {% if pedido_ativo and form %}
-                            <div class="ui error quantidade hidden message">
+                            <article class="ui error quantidade hidden message">
                                 <span class="header">Quantidade inválida</span>
                                 Não respeita o valor múltiplo de venda do produto: {{ item.produto.multiplo }}.
                                 <i class="close icon"></i>
-                            </div>
+                            </article>
 
                             <form method="POST" action="{% url 'editar_item' id_item=item.id %}"
                                   class="ui big item form">
@@ -108,7 +104,7 @@
                                 <input type="submit" class="ui blue submit fluid big button" value="Salvar Pedido">
                             </form>
                         {% endif %}
-                    </div>
+                    </section>
                 {% else %}
                     <div class="ui warning message">
                         <span class="header">Edição desabilitada!</span>
@@ -116,7 +112,6 @@
                     </div>
                 {% endif %}
 
-{#                <div class="ui vertical fluid inverted teal menu">#}
                 <a class="ui teal button" href="{% url 'visualizar_pedido' id_pedido=item.pedido.id %}">
                     <i class="shop icon"></i>
                     Pedido
@@ -131,9 +126,9 @@
                         Remover
                     </a>
                 {% endif %}
-            </div>
-        </div>
-    </div>
+            </section>
+        </section>
+    </section>
 {% endblock %}
 
 {% block extrajs %}

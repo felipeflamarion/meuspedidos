@@ -12,6 +12,8 @@ def get_mensagem(view, mensagem):
         'pedido': {
             'sem_itens': {'codigo': False, 'texto': 'Um pedido deve conter pelo menos 1 item!'}
         },
-        'produto': {}
+        'produto': {
+
+        }
     }
     return mensagens[view][mensagem]

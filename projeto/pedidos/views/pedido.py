@@ -1,6 +1,6 @@
 # coding:utf-8
 from django.core import urlresolvers
-from django.http import Http404, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 from pedidos.forms import PedidoForm
